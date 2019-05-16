@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class ComboOrder {
-    private Long comOrderId;
+    private String comOrderId;
 
     private Double price;
 

@@ -26,7 +26,7 @@ import java.util.Random;
          * 摄影套餐订单类别头
          * @param userId
          */
-        public static String getOrderCode(Long userId){
+        public static String getComboOrderCode(Long userId){
             return ORDER_CODE + getCode(userId);
         }
 
@@ -34,7 +34,7 @@ import java.util.Random;
          * 服装订单类别头
          * @param userId
          */
-        public static String getReturnCode(Long userId){
+        public static String getRentClothesCode(Long userId){
             return RETURN_ORDER + getCode(userId);
         }
 
