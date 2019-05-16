@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.CustomerMapper" >
+
+  <resultMap id="BaseResultMap" type="com.djyz.domain.Customer" >
+    <id column="cust_id" property="custId" />
+    <result column="cust_name" property="custName" />
+    <result column="password" property="password"/>
+    <result column="cust_phone" property="custPhone" />
+    <result column="address" property="address"/>
+    <result column="header_pic" property="headerPic"/>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from customer
+    where cust_id = #{custId,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.djyz.domain.Customer" >
+    insert into customer (cust_id, cust_name, password, cust_phone, address, header_pic)
+    values (#{custId}, #{custName}, #{password},#{custPhone}, #{address}, #{headerPic})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.Customer" >
+    update customer
+    set cust_name = #{custName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      cust_phone = #{custPhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      header_pic = #{headerPic,jdbcType=VARCHAR}
+    where cust_id = #{custId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select cust_id, cust_name, password, cust_phone, address, header_pic
+    from customer
+    where cust_id = #{custId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from customer
+  </select>
+
+    <!--登录1-->
+  <select id="customerLogin" resultMap="BaseResultMap" >
+    select * from customer where cust_phone = #{custPhone} and password = #{password}
+  </select>
+
+
+</mapper>

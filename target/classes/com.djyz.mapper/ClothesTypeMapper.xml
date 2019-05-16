@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.ClothesTypeMapper" >
+
+  <resultMap id="BaseResultMap" type="com.djyz.domain.ClothesType" >
+    <id column="clo_type_id" property="cloTypeId"/>
+    <result column="clo_type_name" property="cloTypeName"/>
+    <collection property="rentClothes" ofType="com.djyz.domain.RentClothes" javaType="ArrayList"  resultMap="rentClothesMap">
+    </collection>
+  </resultMap>
+  
+  <resultMap id="rentClothesMap" type="com.djyz.domain.RentClothes">
+    <id column="clo_id" property="cloId"/>
+    <result column="clo_name" property="cloName"/>
+    <result column="clo_price" property="cloPrice"/>
+    <result column="clo_picture" property="cloPicture"/>
+    <result column="clo_detail" property="cloDetail" />
+    <result column="clo_type" property="cloType"/>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from clothes_type
+    where clo_type_id = #{cloTypeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.ClothesType" >
+    insert into clothes_type (clo_type_id, clo_type_name)
+    values (#{cloTypeId,jdbcType=BIGINT}, #{cloTypeName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ClothesType" >
+    update clothes_type
+    set clo_type_name = #{cloTypeName,jdbcType=VARCHAR}
+    where clo_type_id = #{cloTypeId,jdbcType=BIGINT}
+  </update>
+
+  <!--打破租赁衣服和分类的关系-->
+  <update id="updateClothesTypeRel">
+     update rent_Clothes set clo_type = null where clo_type = #{id}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select clo_type_id, clo_type_name
+    from clothes_type
+    where clo_type_id = #{cloTypeId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select clo_type_id, clo_type_name
+    from clothes_type
+  </select>
+
+  <!--获取全部租赁衣服种类-包括租赁服装-->
+  <select id="getTypeAndClothes" resultMap="BaseResultMap">
+    SELECT cc.clo_type_id, cc.clo_type_name, r.clo_id, r.clo_name, r.clo_price,r.clo_picture, r.clo_detail
+    FROM clothes_type cc
+    LEFT JOIN rent_clothes r
+    ON cc.clo_type_id = r.clo_type
+
+  </select>
+
+</mapper>

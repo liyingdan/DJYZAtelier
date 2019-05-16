@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.ShootingLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.djyz.domain.ShootingLocation" >
+    <id column="lid" property="lid" jdbcType="BIGINT" />
+    <result column="lname" property="lname" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from shooting_location
+    where lid = #{lid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.ShootingLocation" >
+    insert into shooting_location (lid, lname)
+    values (#{lid,jdbcType=BIGINT}, #{lname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ShootingLocation" >
+    update shooting_location
+    set lname = #{lname,jdbcType=VARCHAR}
+    where lid = #{lid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select lid, lname
+    from shooting_location
+    where lid = #{lid,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select lid, lname
+    from shooting_location
+  </select>
+</mapper>
