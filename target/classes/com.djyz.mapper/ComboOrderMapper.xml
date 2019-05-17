@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.djyz.mapper.ComboOrderMapper" >
   <resultMap id="BaseResultMap" type="com.djyz.domain.ComboOrder" >
-    <id column="com_order_id" property="comOrderId" jdbcType="BIGINT" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="com_oder_date" property="comOderDate" jdbcType="VARCHAR" />
-    <result column="start_date" property="startDate" jdbcType="DATE" />
-    <result column="shooting_state" property="shootingState" jdbcType="TINYINT" />
+    <id column="com_order_id" property="comOrderId"/>
+    <result column="price" property="price"  />
+    <result column="com_oder_date" property="comOderDate"/>
+    <result column="start_date" property="startDate"  />
+    <result column="shooting_state" property="shootingState"/>
     <association property="customer" javaType="com.djyz.domain.Customer">
       <id column="cust_id" property="custId" />
       <result column="cust_name" property="custName" />
@@ -27,14 +27,12 @@
     delete from combo_order
     where com_order_id = #{comOrderId,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="com.djyz.domain.ComboOrder" >
-    insert into combo_order (com_order_id, price, com_oder_date, 
-      start_date, combo_id, customer_id, 
-      shootting_location_id, shooting_state)
-    values (#{comOrderId,jdbcType=BIGINT}, #{price,jdbcType=DOUBLE}, #{comOderDate,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=DATE}, #{comboId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
-      #{shoottingLocationId,jdbcType=BIGINT}, #{shootingState,jdbcType=TINYINT})
+    insert into combo_order (com_order_id, price, com_oder_date, start_date, combo_id, customer_id, shootting_location_id, shooting_state)
+    values (#{comOrderId}, #{price}, #{comOderDate},#{startDate}, #{combo.co_id}, #{customer.cust_id}, #{shootingLocation.lid}, #{shootingState})
   </insert>
+
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
     update combo_order
     set price = #{price,jdbcType=DOUBLE},
