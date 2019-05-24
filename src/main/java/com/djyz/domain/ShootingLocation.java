@@ -8,6 +8,10 @@ public class ShootingLocation {
 
     private String lname;
 
+    private Long shootingDays;
+
+    private Long timeLimit;
+
     private ComboLocation comboLocation;
 
 }

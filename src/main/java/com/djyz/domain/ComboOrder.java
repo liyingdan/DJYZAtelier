@@ -1,28 +1,33 @@
 package com.djyz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 @Data
 public class ComboOrder {
-    private String comOrderId;
+    private Long comOrderId;
 
     private Double price;
 
+    @JsonFormat(pattern = "yyyy-mm-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date comOderDate;
 
-    private Date startDate;
+    private String startDate;
 
-//    private Long comboId;
     private Combo combo;
+//    private Long comboId;
 
-//    private Long customerId;
     private Customer customer;
 
-//    private Long shoottingLocationId;
     private ShootingLocation shootingLocation;
+//    private Long shoottingLocationId;
 
-    private Byte shootingState;
+    private Long shootingState;
+
+
 
 
 }

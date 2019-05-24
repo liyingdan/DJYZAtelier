@@ -1,6 +1,7 @@
 package com.djyz.web;
 
 import com.djyz.domain.Article;
+import com.djyz.domain.Customer;
 import com.djyz.service.ArticleService;
 import com.djyz.util.AjaxRes;
 import io.swagger.annotations.Api;
@@ -19,11 +20,10 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    /*增加文章--------------------失败*/
+    /*增加文章*/
     @PostMapping("/addArticle")
     @ResponseBody
     public AjaxRes addArticle(Article article){
-        System.out.println("增加文章----------------"+article);
         return articleService.addArticle(article);
     }
 
@@ -46,6 +46,13 @@ public class ArticleController {
     @ResponseBody
     public List<Article> getAllArticles(){
         return articleService.getAllArticles();
+    }
+
+    /*根据用户id查询文章*/
+    @GetMapping("/getArticlesWithCustId")
+    @ResponseBody
+    public List<Article> getArticlesWithCustId(Customer customer){
+        return articleService.getArticlesWithCustId(customer);
     }
 
 

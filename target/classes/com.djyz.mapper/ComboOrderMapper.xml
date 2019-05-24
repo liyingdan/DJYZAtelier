@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.djyz.mapper.ComboOrderMapper" >
+
   <resultMap id="BaseResultMap" type="com.djyz.domain.ComboOrder" >
     <id column="com_order_id" property="comOrderId"/>
-    <result column="price" property="price"  />
-    <result column="com_oder_date" property="comOderDate"/>
-    <result column="start_date" property="startDate"  />
+    <result column="price" property="price"/>
+    <result column="com_oder_date" property="comOderDate" />
+    <result column="start_date" property="startDate" />
     <result column="shooting_state" property="shootingState"/>
-    <association property="customer" javaType="com.djyz.domain.Customer">
-      <id column="cust_id" property="custId" />
-      <result column="cust_name" property="custName" />
-    </association>
+    <!--<result column="combo_id" property="comboId"/>-->
+    <!--<result column="shootting_location_id" property="shoottingLocationId"/>-->
     <association property="combo" javaType="com.djyz.domain.Combo">
       <id column="co_id" property="coId" />
       <result column="co_name" property="coName" />
-      <result column="co_days" property="coDays" />
+      <result column="co_desc" property="coDesc" />
+    </association>
+    <association property="customer" javaType="com.djyz.domain.Customer">
+      <id column="cust_id" property="custId" />
+      <result column="cust_name" property="custName" />
+      <result column="password" property="password"/>
+      <result column="cust_phone" property="custPhone" />
+      <result column="address" property="address"/>
+      <result column="header_pic" property="headerPic"/>
     </association>
     <association property="shootingLocation" javaType="com.djyz.domain.ShootingLocation">
-      <id column="lid" property="lid" jdbcType="BIGINT" />
-      <result column="lname" property="lname" jdbcType="VARCHAR" />
+      <id column="lid" property="lid" />
+      <result column="lname" property="lname"  />
     </association>
-
-
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from combo_order
-    where com_order_id = #{comOrderId,jdbcType=BIGINT}
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from combo_order where com_order_id = #{comOrderId}
   </delete>
 
-  <insert id="insert" parameterType="com.djyz.domain.ComboOrder" >
-    insert into combo_order (com_order_id, price, com_oder_date, start_date, combo_id, customer_id, shootting_location_id, shooting_state)
-    values (#{comOrderId}, #{price}, #{comOderDate},#{startDate}, #{combo.co_id}, #{customer.cust_id}, #{shootingLocation.lid}, #{shootingState})
+  <!--添加订单-->
+  <insert id="insert" parameterType="com.djyz.domain.ComboOrder" useGeneratedKeys="true" keyProperty="comOrderId" >
+    insert into combo_order (com_order_id, price, com_oder_date, start_date, shooting_state, combo_id, shootting_location_id, customer_id)
+    values (#{comOrderId}, #{price}, #{comOderDate}, #{startDate}, #{shootingState}, #{combo.coId}, #{shootingLocation.lid} , #{customer.custId})
   </insert>
 
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
-    update combo_order
+    update combo_ordert
     set price = #{price,jdbcType=DOUBLE},
-      com_oder_date = #{comOderDate,jdbcType=VARCHAR},
-      start_date = #{startDate,jdbcType=DATE},
-      combo_id = #{comboId,jdbcType=BIGINT},
-      customer_id = #{customerId,jdbcType=BIGINT},
-      shootting_location_id = #{shoottingLocationId,jdbcType=BIGINT},
-      shooting_state = #{shootingState,jdbcType=TINYINT}
-    where com_order_id = #{comOrderId,jdbcType=BIGINT}
+      com_oder_date = #{comOderDate,jdbcType=DATE},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      combo_id = #{combo.co_id},
+      customer_id = #{customer.cust_id},
+      shootting_location_id = #{shootingLocation.lid},
+      shooting_state = #{shootingState,jdbcType=BIGINT}
+    where com_order_id = #{comOrderId,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select com_order_id, price, com_oder_date, start_date, combo_id, customer_id, shootting_location_id, 
     shooting_state
     from combo_order
-    where com_order_id = #{comOrderId,jdbcType=BIGINT}
+    where com_order_id = #{comOrderId,jdbcType=VARCHAR}
   </select>
+
   <select id="selectAll" resultMap="BaseResultMap" >
-    SELECT coo.com_order_id,coo.price,coo.com_oder_date,coo.start_date,cu.cust_id,cu.cust_name,cc.co_id,cc.co_name,cc.co_days,sl.lid,sl.lname
+    SELECT coo.com_order_id, coo.price, coo.com_oder_date, coo.start_date, cu.cust_id, cu.cust_name, cc.co_id, cc.co_name, cc.co_desc, sl.lid, sl.lname
     FROM combo_order coo
     LEFT JOIN customer cu ON coo.customer_id = cu.cust_id
     LEFT JOIN combo cc ON coo.combo_id = cc.co_id
     LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
     ;
   </select>
+
+
 </mapper>

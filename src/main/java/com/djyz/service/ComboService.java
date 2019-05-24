@@ -11,4 +11,6 @@ public interface ComboService {
     AjaxRes addCombo(Combo combo, MultipartFile[] files, MultipartFile smPicture, HttpSession session);
 
     List<Combo> getAllCombo();
+
+    Combo getComboWithId(Long coId);
 }

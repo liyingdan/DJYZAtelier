@@ -10,7 +10,7 @@ public class RentClothes {
     private String cloName;
     private Double cloPrice;
     private String cloPicture;
-    private String cloDetail;
+    private Long cloDetail;
     private Long cloType;
 
 

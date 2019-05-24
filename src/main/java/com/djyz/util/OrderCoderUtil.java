@@ -1,5 +1,7 @@
 package com.djyz.util;
 
+import org.springframework.context.annotation.Configuration;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +13,7 @@ import java.util.Random;
      * @Date 2018/8/21  下午2:43.
      */
 
+    @Configuration
     public class OrderCoderUtil {
 
         /** 摄影套餐订单类别头 */
@@ -26,7 +29,7 @@ import java.util.Random;
          * 摄影套餐订单类别头
          * @param userId
          */
-        public static String getComboOrderCode(Long userId){
+        public  String getComboOrderCode(Long userId){
             return ORDER_CODE + getCode(userId);
         }
 
@@ -34,7 +37,7 @@ import java.util.Random;
          * 服装订单类别头
          * @param userId
          */
-        public static String getRentClothesCode(Long userId){
+        public String getRentClothesCode(Long userId){
             return RETURN_ORDER + getCode(userId);
         }
 

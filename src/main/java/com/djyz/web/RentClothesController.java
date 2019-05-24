@@ -41,7 +41,7 @@ public class RentClothesController {
             consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ResponseBody
     public AjaxRes addRentClothes(@PathVariable String cloName, @PathVariable Double cloPrice,
-                                  @PathVariable MultipartFile file, @PathVariable String cloDetail, @PathVariable Long cloType, HttpSession session) throws IOException {
+                                  @PathVariable MultipartFile file, @PathVariable Long cloDetail, @PathVariable Long cloType, HttpSession session) throws IOException {
         RentClothes rentClothes = new RentClothes();
         /*上传图片*/
         if(file != null){
@@ -79,7 +79,7 @@ public class RentClothesController {
    @PostMapping(value = "/editRentClothes/{cloId}/{cloName}/{file}/{cloPrice}/{cloDetail}/{cloType}")
    @ResponseBody
     public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
-                                @PathVariable MultipartFile file,@PathVariable String cloDetail, @PathVariable Long cloType,HttpSession session) throws IOException {
+                                @PathVariable MultipartFile file,@PathVariable Long cloDetail, @PathVariable Long cloType,HttpSession session) throws IOException {
        AjaxRes ajaxRes = new AjaxRes();
        try{
            RentClothes rentClothes = new RentClothes();

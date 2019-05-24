@@ -15,4 +15,5 @@ public interface ArticleMapper {
     int updateByPrimaryKey(Article record);
 
 
+    List<Article> getArticlesWithCustId(Long custId);
 }

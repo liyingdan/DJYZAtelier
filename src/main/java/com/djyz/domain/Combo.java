@@ -11,13 +11,11 @@ public class Combo {
 
     private String coName;
 
-//    private Double coPrice;
-
     private String coPicture;
 
     private Long coType;
 
-    private String coDays;
+    private String coDesc;
 
     private String detailPic1;
 

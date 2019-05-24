@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,19 +28,21 @@ public class ComboOrderController {
     }
 
 
-    /*添加订单*/
+    /*添加订单-*/
     /**
-     *参数：price
-     *
-     *
-     *
+     *参数：comOrderId（自动生成），price,
+     * comOderDate(自动生成今天日期)，startDate（拍摄日期，点击拍摄地点进行选择（几号）），
+     * combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）
      * */
     @PostMapping("/addComboOrders")
     @ResponseBody
     public AjaxRes addComboOrders(ComboOrder comboOrder){
-        System.out.println("添加订单------------------");
         return comboOrderService.addComboOrders(comboOrder);
     }
+
+
+
+
 
 
 }

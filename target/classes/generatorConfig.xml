@@ -5,9 +5,7 @@
 <!-- 配置生成器 -->
 <generatorConfiguration>
 
-	<context id="mysql" defaultModelType="hierarchical"
-			 targetRuntime="MyBatis3Simple">
-
+	<context id="mysql" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
 		<!-- 自动识别数据库关键字，
 		默认false，如果设置为true，
 		根据SqlReservedWords中定义的关键字列表；
@@ -98,7 +96,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-		<table tableName="combo_order"></table>
+		<table tableName="clothes_order"></table>
 
 
 

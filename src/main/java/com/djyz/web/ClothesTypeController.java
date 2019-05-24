@@ -18,12 +18,12 @@ import java.util.List;
  * RentClothes增删查改都写了，但是修改有问题（1.put方法用不了 用post暂时代替）
  * GuestPhoto写了增加和查询
  * ArticleController的增加文章、踩文章、点赞写了 查询全部文章
- * customer写了注册，登录,  根据id查询
+ * customer写了注册，登录（电话号码，密码）,  根据id查询
  * comment写了增加评论(更新文章表中的评论数量) 根据文章id查询评论  根据文章id查询评论数量
- * ComboOrder
+ * ComboOrder 查询，增加（增加一个订单还得在shooting_days的表里增加次数 ok）
  * employee
  * role
- *
+ * ShootingLocation---增加摄影地点，根据地点获取可拍摄的天数（添加摄影套餐预定之前）
  *
  *
  *

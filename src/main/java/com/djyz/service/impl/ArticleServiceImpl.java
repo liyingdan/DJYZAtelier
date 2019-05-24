@@ -1,6 +1,7 @@
 package com.djyz.service.impl;
 
 import com.djyz.domain.Article;
+import com.djyz.domain.Customer;
 import com.djyz.mapper.ArticleMapper;
 import com.djyz.service.ArticleService;
 import com.djyz.util.AjaxRes;
@@ -19,7 +20,6 @@ public class ArticleServiceImpl implements ArticleService {
     /*添加文章*/
     @Override
     public AjaxRes addArticle(Article article) {
-        System.out.println("service--------------文章"+article);
         AjaxRes ajaxRes = new AjaxRes();
         try{
             articleMapper.insert(article);
@@ -39,7 +39,8 @@ public class ArticleServiceImpl implements ArticleService {
         try{
             Article article = articleMapper.selectByPrimaryKey(aid);
             Long numSupport = article.getNumSupport();
-            numSupport = numSupport + 1;
+//            numSupport = numSupport + 1;
+            numSupport += 1;
             article.setNumSupport(numSupport);
             articleMapper.updateByPrimaryKey(article);
 
@@ -59,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
         try{
             Article article = articleMapper.selectByPrimaryKey(aid);
             Long numNonsupport = article.getNumNonsupport();
-            numNonsupport = numNonsupport + 1;
+            numNonsupport += 1;
             article.setNumNonsupport(numNonsupport);
             articleMapper.updateByPrimaryKey(article);
 
@@ -77,4 +78,13 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> getAllArticles() {
         return articleMapper.selectAll();
     }
+
+    /*根据用户id查询文章*/
+    @Override
+    public List<Article> getArticlesWithCustId(Customer customer) {
+        return articleMapper.getArticlesWithCustId(customer.getCustId());
+    }
+
+
+
 }
