@@ -37,11 +37,11 @@ public class RentClothesController {
 
     /*添加租赁服装*/
     @ApiOperation("租赁服装增加--")
-    @PostMapping(value = "/addRentClothes/{cloName}/{cloPrice}/{file}/{cloDetail}/{cloType}",
+    @PostMapping(value = "/addRentClothes/{cloName}/{cloPrice}/{file}/{cloAmount}/{cloType}",
             consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ResponseBody
     public AjaxRes addRentClothes(@PathVariable String cloName, @PathVariable Double cloPrice,
-                                  @PathVariable MultipartFile file, @PathVariable Long cloDetail, @PathVariable Long cloType, HttpSession session) throws IOException {
+                                  @PathVariable MultipartFile file, @PathVariable Long cloAmount, @PathVariable Long cloType, HttpSession session) throws IOException {
         RentClothes rentClothes = new RentClothes();
         /*上传图片*/
         if(file != null){
@@ -52,7 +52,7 @@ public class RentClothesController {
         /*增加租赁服装的字段*/
         rentClothes.setCloName(cloName);
         rentClothes.setCloPrice(cloPrice);
-        rentClothes.setCloDetail(cloDetail);
+        rentClothes.setCloAmount(cloAmount);
         rentClothes.setCloType(cloType);
 
         return rentClothesService.addRentClothes(rentClothes);
@@ -76,17 +76,17 @@ public class RentClothesController {
 
     /*修改租赁服装------------put过不来方法上--先使用post代替-----返回值错误，但是可以正确修改内容*/
    @ApiOperation("租赁服装修改--")
-   @PostMapping(value = "/editRentClothes/{cloId}/{cloName}/{file}/{cloPrice}/{cloDetail}/{cloType}")
+   @PostMapping(value = "/editRentClothes/{cloId}/{cloName}/{file}/{cloPrice}/{cloAmount}/{cloType}")
    @ResponseBody
     public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
-                                @PathVariable MultipartFile file,@PathVariable Long cloDetail, @PathVariable Long cloType,HttpSession session) throws IOException {
+                                @PathVariable MultipartFile file,@PathVariable Long cloAmount, @PathVariable Long cloType,HttpSession session) throws IOException {
        AjaxRes ajaxRes = new AjaxRes();
        try{
            RentClothes rentClothes = new RentClothes();
            rentClothes.setCloId(cloId);
            rentClothes.setCloName(cloName);
            rentClothes.setCloPrice(cloPrice);
-           rentClothes.setCloDetail(cloDetail);
+           rentClothes.setCloAmount(cloAmount);
            rentClothes.setCloType(cloType);
            //如果file不为空，删除之前上传到服务器的图片，然后再上传新的图片
            if(file != null || !"".equals(file)){

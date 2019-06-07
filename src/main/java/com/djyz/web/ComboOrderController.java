@@ -1,15 +1,13 @@
 package com.djyz.web;
 
 import com.djyz.domain.ComboOrder;
+import com.djyz.domain.ComboOrderState;
 import com.djyz.service.ComboOrderService;
 import com.djyz.util.AjaxRes;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,8 +37,27 @@ public class ComboOrderController {
     }
 
     /*根据id查询订单*/
+    @GetMapping("/getComboOrdersWithId/{comOrderId}")
+    @ResponseBody
+    public ComboOrder  getComboOrdersWithId(@PathVariable Long comOrderId){
+        return comboOrderService.getComboOrdersWithId(comOrderId);
+    }
+
+
+    //获取全部订单状态
+    @GetMapping("/getAllOrderStates")
+    @ResponseBody
+    public List<ComboOrderState> getAllOrderStates(){
+        return comboOrderService.getAllOrderStates();
+    }
 
     /*修改订单状态*/
+    @PutMapping("/editOrderStateWithId/{comOrderId}/{osId}")
+    @ResponseBody
+    public AjaxRes editOrderStateWithId(@PathVariable Long comOrderId,@PathVariable Long osId){
+        return comboOrderService.editOrderStateWithId(comOrderId,osId);
+    }
+
 
 
 

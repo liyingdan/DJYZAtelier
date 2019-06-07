@@ -31,19 +31,19 @@ public class ComboController {
         return comboService.getAllCombo();
     }
 
-    /*添加摄影套餐*/
-    @PostMapping("/addCombo")
-    @ResponseBody
-    public AjaxRes addCombo(Combo combo, @PathVariable MultipartFile[] files, @PathVariable MultipartFile smPicture, HttpSession session){
-        System.out.println(combo);
-        return comboService.addCombo(combo,files,smPicture,session);
-    }
-
     /*根据id获取套餐*/
     @GetMapping("/getComboWithId/{coId}")
     @ResponseBody
     public Combo getComboWithId(@PathVariable Long coId){
         return comboService.getComboWithId(coId);
+    }
+
+    /*添加摄影套餐(增加可拍摄地点和相应的价格)*/
+    @PostMapping("/addCombo")
+    @ResponseBody
+    public AjaxRes addCombo(Combo combo, @PathVariable MultipartFile[] files, @PathVariable MultipartFile smPicture, HttpSession session){
+        System.out.println(combo);
+        return comboService.addCombo(combo,files,smPicture,session);
     }
 
 

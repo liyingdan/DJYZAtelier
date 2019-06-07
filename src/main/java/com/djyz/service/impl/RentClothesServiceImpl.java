@@ -31,6 +31,7 @@ public class RentClothesServiceImpl implements RentClothesService {
         return clothes;
     }
 
+    /*添加租赁服装*/
     @Override
     public AjaxRes addRentClothes(RentClothes rentClothes) {
         AjaxRes ajaxRes = new AjaxRes();

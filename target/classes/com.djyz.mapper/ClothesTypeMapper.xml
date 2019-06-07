@@ -14,7 +14,7 @@
     <result column="clo_name" property="cloName"/>
     <result column="clo_price" property="cloPrice"/>
     <result column="clo_picture" property="cloPicture"/>
-    <result column="clo_detail" property="cloDetail" />
+    <result column="clo_amount" property="cloAmount" />
     <result column="clo_type" property="cloType"/>
   </resultMap>
 

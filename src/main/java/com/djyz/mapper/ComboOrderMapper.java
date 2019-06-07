@@ -22,4 +22,8 @@ public interface ComboOrderMapper {
     void insert(@Param("coId") Long coId, @Param("custId") Long custId,
                 @Param("lid") Long lid, @Param("price") Double price,
                 @Param("startDate") String startDate, @Param("comOderDate") Date comOderDate, @Param("shootingState") Long shootingState);
+
+    ComboOrder getComboOrdersWithId(Long comOrderId);
+
+    void editOrderStateWithId(@Param("comOrderId") Long comOrderId, @Param("osId") Long osId);
 }

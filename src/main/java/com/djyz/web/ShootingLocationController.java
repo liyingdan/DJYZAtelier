@@ -24,7 +24,6 @@ public class ShootingLocationController {
     @PostMapping("/addShootingLocation")
     @ResponseBody
     public AjaxRes addShootingLocation(ShootingLocation shootingLocation){
-        System.out.println("web---------------------"+shootingLocation);
         return shootingLocationService.addShootingLocation(shootingLocation);
     }
 

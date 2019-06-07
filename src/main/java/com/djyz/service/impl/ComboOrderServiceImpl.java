@@ -2,6 +2,7 @@ package com.djyz.service.impl;
 
 import com.djyz.domain.*;
 import com.djyz.mapper.ComboOrderMapper;
+import com.djyz.mapper.ComboOrderStateMapper;
 import com.djyz.mapper.ShootingLocationMapper;
 import com.djyz.service.ComboOrderService;
 import com.djyz.util.AjaxRes;
@@ -19,6 +20,8 @@ public class ComboOrderServiceImpl implements ComboOrderService {
     private ComboOrderMapper comboOrderMapper;
     @Autowired
     private ShootingLocationMapper shootingLocationMapper;
+    @Autowired
+    private ComboOrderStateMapper comboOrderStateMapper;
 
 
     /*查询全部订单*/
@@ -89,6 +92,30 @@ public class ComboOrderServiceImpl implements ComboOrderService {
         return ajaxRes;
     }
 
+    @Override
+    public ComboOrder getComboOrdersWithId(Long comOrderId) {
+        return comboOrderMapper.getComboOrdersWithId(comOrderId);
+    }
+
+    /*获取全部订单状态*/
+    @Override
+    public List<ComboOrderState> getAllOrderStates() {
+        return comboOrderStateMapper.selectAll();
+    }
+
+    /*修改订单状态*/
+    @Override
+    public AjaxRes editOrderStateWithId(Long comOrderId, Long osId) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            comboOrderMapper.editOrderStateWithId(comOrderId,osId);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+
+    }
 
 
 }

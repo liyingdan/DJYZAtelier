@@ -12,22 +12,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * combotype的增改查写了，删除没写
- * Combo（摄影套餐）写了增加和查询 (增加还有点问题：还有价格还没上传)
+ * combotype的增改查写了，删除没写✔✔
+ * Combo（摄影套餐）写了增加（增加可拍摄地点和相应的价格）和查询 (增加还有点问题，地点---还有价格还没上传)
  * ClothesType增删查改都写了,获取全部租赁衣服种类-包括租赁服装✔✔✔
  * RentClothes增删查改都写了，但是修改有问题（1.put方法用不了 用post暂时代替）✔✔
  * GuestPhoto写了增加和查询、删除✔✔
  * ArticleController的增加文章、踩文章、点赞, 查询全部文章，根据用户id查询文章,根据id删除文章✔✔
  * customer注册--添加客户，登录（电话号码，密码）,  根据id查询,查询所有客户✔✔
  * comment写了增加评论(更新文章表中的评论数量) 根据文章id查询评论  根据文章id查询评论数量✔✔
- * ComboOrder 查询，增加（增加一个订单还得在shooting_days的表里增加次数 ok）
+ * ComboOrder 查询,根据id查询订单，增加（增加一个订单还得在shooting_days的表里增加次数 ok）,修改订单状态✔✔
  * employee
  * role
- * ShootingLocation---增加摄影地点，根据地点获取可拍摄的天数（添加摄影套餐预定之前）
- *
- *
- *
- *
+ * ShootingLocation---增加摄影地点，根据地点获取可拍摄的天数（添加摄影套餐预定之前）✔✔
+ * RentClothesOrder
  *
  * */
 
