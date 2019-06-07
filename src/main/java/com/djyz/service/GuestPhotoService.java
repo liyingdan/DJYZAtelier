@@ -11,4 +11,6 @@ public interface GuestPhotoService {
     AjaxRes addGuestPhoto(GuestPhoto guestPhoto, MultipartFile[] files, HttpSession session);
 
     List<GuestPhoto> getAllGuestPhoto();
+
+    AjaxRes deleteGuestPhotoWithId(Long guId,HttpSession session);
 }

@@ -11,8 +11,8 @@ public class ComboOrder {
 
     private Double price;
 
-    @JsonFormat(pattern = "yyyy-mm-dd",timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date comOderDate;
 
     private String startDate;
@@ -25,7 +25,8 @@ public class ComboOrder {
     private ShootingLocation shootingLocation;
 //    private Long shoottingLocationId;
 
-    private Long shootingState;
+//    private Long shootingState;
+    private  ComboOrderState comboOrderState;
 
 
 

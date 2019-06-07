@@ -54,4 +54,10 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     SELECT * FROM article aa LEFT JOIN customer cc ON aa.customer_id = cc.cust_id;
   </select>
+
+  <!--根据用户id查询文章-->
+  <select id="getArticlesWithCustId" resultMap="BaseResultMap">
+    select * from article where customer_id = #{custId}
+  </select>
+
 </mapper>

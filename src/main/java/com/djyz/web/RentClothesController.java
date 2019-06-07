@@ -112,8 +112,6 @@ public class RentClothesController {
 
 
 
-
-
    /*查询全部租赁服装-分页*/
     @GetMapping("/getAllRentClothes")
     @ResponseBody

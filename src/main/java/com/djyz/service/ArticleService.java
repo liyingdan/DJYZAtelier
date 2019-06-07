@@ -15,5 +15,8 @@ public interface ArticleService {
 
     List<Article> getAllArticles();
 
-    List<Article> getArticlesWithCustId(Customer customer);
+//    List<Article> getArticlesWithCustId(Customer customer);
+    List<Article> getArticlesWithCustId(Long custId);
+
+    AjaxRes deleteArticlesWithCustId(Long aid);
 }

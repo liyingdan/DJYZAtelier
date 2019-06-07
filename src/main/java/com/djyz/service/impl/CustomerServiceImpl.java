@@ -37,14 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
     /*登录*/
     @Override
     public AjaxRes customerLogin(Customer customer) {
-//        System.out.println("service中-----------------customer--"+customer);
         AjaxRes ajaxRes = new AjaxRes();
         //登录验证1
         try{
             Customer customer1 = customerMapper.customerLogin(customer);
-//            System.out.println("登录---------------"+customer1);
             if(customer1 != null){
-//                System.out.println("登录成功------------------"+customer1);
                 ajaxRes.setSuccess(true);
                 ajaxRes.setMsg("登录成功");
                 ajaxRes.setCustomer(customer1);

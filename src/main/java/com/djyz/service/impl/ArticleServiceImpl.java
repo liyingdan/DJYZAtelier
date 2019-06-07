@@ -80,11 +80,30 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /*根据用户id查询文章*/
-    @Override
+    /*@Override
     public List<Article> getArticlesWithCustId(Customer customer) {
         return articleMapper.getArticlesWithCustId(customer.getCustId());
+    }*/
+    @Override
+    public List<Article> getArticlesWithCustId(Long custId) {
+        return articleMapper.getArticlesWithCustId(custId);
     }
 
+    /*根据id删除文章*/
+    @Override
+    public AjaxRes deleteArticlesWithCustId(Long aid) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            articleMapper.deleteByPrimaryKey(aid);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("删除成功");
+        }catch (Exception e){
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("删除失败");
+
+        }
+        return ajaxRes;
+    }
 
 
 }

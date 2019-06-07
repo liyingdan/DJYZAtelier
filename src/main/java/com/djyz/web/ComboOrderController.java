@@ -24,9 +24,7 @@ public class ComboOrderController {
     @ResponseBody
     public List<ComboOrder> getAllComboOrders(){
         return comboOrderService.getAllComboOrders();
-
     }
-
 
     /*添加订单-*/
     /**
@@ -34,11 +32,15 @@ public class ComboOrderController {
      * comOderDate(自动生成今天日期)，startDate（拍摄日期，点击拍摄地点进行选择（几号）），
      * combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）
      * */
-    @PostMapping("/addComboOrders")
+    @PostMapping("/addComboOrders/{coId}/{custId}/{lid}/{price}/{startDate}")
     @ResponseBody
-    public AjaxRes addComboOrders(ComboOrder comboOrder){
-        return comboOrderService.addComboOrders(comboOrder);
+    public AjaxRes addComboOrders(@PathVariable Long coId,@PathVariable Long custId,@PathVariable Long lid,@PathVariable Double price,@PathVariable String startDate){
+        return comboOrderService.addComboOrders(coId,custId,lid,price,startDate);
     }
+
+    /*根据id查询订单*/
+
+    /*修改订单状态*/
 
 
 

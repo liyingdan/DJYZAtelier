@@ -7,10 +7,7 @@ import com.djyz.util.AjaxRes;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,12 +45,28 @@ public class ArticleController {
         return articleService.getAllArticles();
     }
 
-    /*根据用户id查询文章*/
+   /* *//*根据用户id查询文章*//*
     @GetMapping("/getArticlesWithCustId")
     @ResponseBody
     public List<Article> getArticlesWithCustId(Customer customer){
         return articleService.getArticlesWithCustId(customer);
+    }*/
+
+    /*根据用户id查询文章*/
+    @GetMapping("/getArticlesWithCustId/{custId}")
+    @ResponseBody
+    public List<Article> getArticlesWithCustId(@PathVariable Long custId){
+        return articleService.getArticlesWithCustId(custId);
     }
+
+    /*根据id删除文章*/
+    @DeleteMapping("/deleteArticlesWithaid/{aid}")
+    @ResponseBody
+    public AjaxRes deleteArticlesWithCustId(@PathVariable Long aid){
+        return articleService.deleteArticlesWithCustId(aid);
+
+    }
+
 
 
 

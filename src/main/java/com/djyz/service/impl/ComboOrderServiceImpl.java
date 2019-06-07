@@ -1,8 +1,6 @@
 package com.djyz.service.impl;
 
-import com.djyz.domain.ComboOrder;
-import com.djyz.domain.ShootingDays5;
-import com.djyz.domain.ShootingLocation;
+import com.djyz.domain.*;
 import com.djyz.mapper.ComboOrderMapper;
 import com.djyz.mapper.ShootingLocationMapper;
 import com.djyz.service.ComboOrderService;
@@ -34,20 +32,20 @@ public class ComboOrderServiceImpl implements ComboOrderService {
      *      combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）*/
     /*添加订单*/
     @Override
-    public AjaxRes addComboOrders(ComboOrder comboOrder) {
+    public AjaxRes addComboOrders(Long coId, Long custId, Long lid, Double price, String startDate) {
         AjaxRes ajaxRes = new AjaxRes();
         try{
             //设置生成订单日期
-            comboOrder.setComOderDate(new Date());
-            comboOrder.setShootingState((long) 1);
-
+            Date comOderDate = new Date();
+            //设置订单状态
+            Long shootingState = 1L;
             //添加订单
-            comboOrderMapper.insert(comboOrder);
+            comboOrderMapper.insert(coId,custId,lid,price,startDate,comOderDate,shootingState);
             //在shooting_days中增加那天的预定次数 首先，从shooting_location中查出天数，再看看往哪个shooting_days表中添加次数
-            ShootingLocation shootingLocation = shootingLocationMapper.selectByPrimaryKey(comboOrder.getShootingLocation().getLid());
+            ShootingLocation shootingLocation = shootingLocationMapper.selectByPrimaryKey(lid);
             //往shooting_days3表中添加次数
             if(shootingLocation.getShootingDays() == 3){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay3(comboOrder.getStartDate());
+                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay3(startDate);
                 Long shootingTimes = datesWithStartDay.getShootingTimes();
                 shootingTimes += 1;
                 datesWithStartDay.setShootingTimes(shootingTimes);
@@ -56,7 +54,7 @@ public class ComboOrderServiceImpl implements ComboOrderService {
             }
             //往shooting_days5表中添加次数
             if(shootingLocation.getShootingDays() == 5){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay5(comboOrder.getStartDate());
+                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay5(startDate);
                 Long shootingTimes = datesWithStartDay.getShootingTimes();
                 shootingTimes += 1;
                 datesWithStartDay.setShootingTimes(shootingTimes);
@@ -65,7 +63,7 @@ public class ComboOrderServiceImpl implements ComboOrderService {
             }
             //往shooting_days7表中添加次数
             if(shootingLocation.getShootingDays() == 7){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay7(comboOrder.getStartDate());
+                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay7(startDate);
                 Long shootingTimes = datesWithStartDay.getShootingTimes();
                 shootingTimes += 1;
                 datesWithStartDay.setShootingTimes(shootingTimes);
@@ -74,14 +72,13 @@ public class ComboOrderServiceImpl implements ComboOrderService {
             }
             //往shooting_days10表中添加次数
             if(shootingLocation.getShootingDays() == 10){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay10(comboOrder.getStartDate());
+                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay10(startDate);
                 Long shootingTimes = datesWithStartDay.getShootingTimes();
                 shootingTimes += 1;
                 datesWithStartDay.setShootingTimes(shootingTimes);
                 //更新次数
                 shootingLocationMapper.updateShootingTimes10(datesWithStartDay);
             }
-
 
             ajaxRes.setMsg("预约成功");
             ajaxRes.setSuccess(true);
@@ -91,7 +88,6 @@ public class ComboOrderServiceImpl implements ComboOrderService {
         }
         return ajaxRes;
     }
-
 
 
 

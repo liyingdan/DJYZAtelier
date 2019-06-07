@@ -62,5 +62,36 @@ public class GuestPhotoServiceImpl implements GuestPhotoService {
         return ajaxRes;
     }
 
+    /*删除客照*/
+    @Override
+    public AjaxRes deleteGuestPhotoWithId(Long guId,HttpSession session) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            //根据id查询出相应的客照
+            GuestPhoto guestPhoto = guestPhotoMapper.selectByPrimaryKey(guId);
+//            System.out.println(guestPhoto);
+            //删除照片
+            fileUpload.deleteFile(guestPhoto.getGuPic1(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic2(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic3(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic4(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic5(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic6(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic7(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic8(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic9(),session);
+            fileUpload.deleteFile(guestPhoto.getGuPic10(),session);
+            //删除数据库内容
+            guestPhotoMapper.deleteByPrimaryKey(guId);
+
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("删除成功");
+        }catch (Exception e){
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("删除失败");
+        }
+        return ajaxRes;
+    }
+
 
 }

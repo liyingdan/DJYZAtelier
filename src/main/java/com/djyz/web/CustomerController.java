@@ -47,8 +47,6 @@ public class CustomerController {
        return customerService.getCustomerWithId(custId);
     }
 
-    /*根据密码-用户名查询*/
-//    @GetMapping("getCustomerWithUserName")
 
 
 
