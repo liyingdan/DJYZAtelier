@@ -21,11 +21,11 @@ import java.util.List;
  * customer注册--添加客户，登录（电话号码，密码）,  根据id查询,查询所有客户✔✔
  * comment写了增加评论(更新文章表中的评论数量) 根据文章id查询评论  根据文章id查询评论数量✔✔
  * ComboOrder 查询,根据id查询订单，增加（增加一个订单还得在shooting_days的表里增加次数 ok）,修改订单状态✔✔
- * employee
+ * employee（实体类建好了，只有controller，没有service）
  * role
  * ShootingLocation---增加摄影地点，根据地点获取可拍摄的天数（添加摄影套餐预定之前）✔✔
  * RentClothesOrder
- *
+ *（剩下员工权限和衣服订单！）
  * */
 
 @Controller

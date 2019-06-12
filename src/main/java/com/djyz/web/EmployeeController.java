@@ -13,8 +13,6 @@ public class EmployeeController {
     @ResponseBody
     public AjaxRes EmployeeLogin(){
 
-
-
         return null;
     }
 }

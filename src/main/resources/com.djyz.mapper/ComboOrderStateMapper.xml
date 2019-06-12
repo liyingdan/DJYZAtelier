@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.ComboOrderStateMapper" >
+  <resultMap id="BaseResultMap" type="com.djyz.domain.ComboOrderState" >
+    <id column="os_id" property="osId" jdbcType="BIGINT" />
+    <result column="os_state" property="osState" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from combo_order_state
+    where os_id = #{osId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.ComboOrderState" >
+    insert into combo_order_state (os_id, os_state)
+    values (#{osId,jdbcType=BIGINT}, #{osState,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrderState" >
+    update combo_order_state
+    set os_state = #{osState,jdbcType=VARCHAR}
+    where os_id = #{osId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select os_id, os_state
+    from combo_order_state
+    where os_id = #{osId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select os_id, os_state
+    from combo_order_state
+  </select>
+</mapper>

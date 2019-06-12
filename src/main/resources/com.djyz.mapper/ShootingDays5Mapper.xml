@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.ShootingDays5Mapper" >
+  <resultMap id="BaseResultMap" type="com.djyz.domain.ShootingDays5" >
+    <id column="shooting_days_id" property="shootingDaysId" jdbcType="BIGINT" />
+    <result column="shooting_days" property="shootingDays" jdbcType="BIGINT" />
+    <result column="shooting_location_id" property="shootingLocationId" jdbcType="BIGINT" />
+    <result column="shooting_times" property="shootingTimes" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from shooting_days_5
+    where shooting_days_id = #{shootingDaysId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.ShootingDays5" >
+    insert into shooting_days_5 (shooting_days_id, shooting_days, shooting_location_id, 
+      shooting_times)
+    values (#{shootingDaysId,jdbcType=BIGINT}, #{shootingDays,jdbcType=BIGINT}, #{shootingLocationId,jdbcType=BIGINT}, 
+      #{shootingTimes,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ShootingDays5" >
+    update shooting_days_5
+    set shooting_days = #{shootingDays,jdbcType=BIGINT},
+      shooting_location_id = #{shootingLocationId,jdbcType=BIGINT},
+      shooting_times = #{shootingTimes,jdbcType=BIGINT}
+    where shooting_days_id = #{shootingDaysId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select shooting_days_id, shooting_days, shooting_location_id, shooting_times
+    from shooting_days_5
+    where shooting_days_id = #{shootingDaysId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select shooting_days_id, shooting_days, shooting_location_id, shooting_times
+    from shooting_days_5
+  </select>
+</mapper>

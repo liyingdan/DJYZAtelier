@@ -96,7 +96,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-		<table tableName="clothes_order"></table>
+		<table tableName="employee"></table>
 
 
 

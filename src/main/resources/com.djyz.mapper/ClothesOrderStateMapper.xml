@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.ClothesOrderStateMapper" >
+  <resultMap id="BaseResultMap" type="com.djyz.domain.ClothesOrderState" >
+    <id column="cos_id" property="cosId" jdbcType="INTEGER" />
+    <result column="cos_name" property="cosName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from clothes_order_state
+    where cos_id = #{cosId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.ClothesOrderState" >
+    insert into clothes_order_state (cos_id, cos_name)
+    values (#{cosId,jdbcType=INTEGER}, #{cosName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ClothesOrderState" >
+    update clothes_order_state
+    set cos_name = #{cosName,jdbcType=VARCHAR}
+    where cos_id = #{cosId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select cos_id, cos_name
+    from clothes_order_state
+    where cos_id = #{cosId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select cos_id, cos_name
+    from clothes_order_state
+  </select>
+</mapper>

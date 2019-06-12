@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.djyz.domain.Employee" >
+    <id column="eid" property="eid" jdbcType="BIGINT" />
+    <result column="ename" property="ename" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from employee
+    where eid = #{eid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.Employee" >
+    insert into employee (eid, ename, password, 
+      role)
+    values (#{eid,jdbcType=BIGINT}, #{ename,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{role,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.Employee" >
+    update employee
+    set ename = #{ename,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      role = #{role,jdbcType=BIGINT}
+    where eid = #{eid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select eid, ename, password, role
+    from employee
+    where eid = #{eid,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select eid, ename, password, role
+    from employee
+  </select>
+</mapper>
