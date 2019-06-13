@@ -5,6 +5,7 @@ import com.djyz.web.filter.CORSFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.DispatcherType;
@@ -32,11 +33,15 @@ public class WebInitializer implements WebApplicationInitializer {
         ctx.setServletContext(servletContext);
 
         Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
-        servlet.addMapping("/");
+        servlet.addMapping("/*");
         servlet.setLoadOnStartup(1);
 
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("cors", new CORSFilter());
         corsFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+
+        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
+        shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
 
         FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
         characterEncodingFilter.setInitParameter("encoding", "utf-8");
