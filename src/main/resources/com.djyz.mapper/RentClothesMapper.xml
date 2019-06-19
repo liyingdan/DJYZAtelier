@@ -28,31 +28,38 @@
       clo_type = #{cloType}
     where clo_id = #{cloId}
   </update>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select clo_id, clo_name, clo_price, clo_picture, clo_amount, clo_type
     from rent_clothes
     where clo_id = #{cloId}
   </select>
 
+  <!--根据服装分类的id获取服装-->
+  <select id="getClothesWithTypeId" resultMap="BaseResultMap">
+    select * from rent_clothes where clo_type = #{cloType}
+  </select>
+
+
+  <!--查询全部服装（高级查询）-->
   <sql id="where_sql">
     <where>
+      <if test="cloType != null and cloType != 0">
+        and clo_type = #{cloType}
+      </if>
+      <if test="price != null and price != 0.0">
+        and clo_price &lt; #{price}
+      </if>
       <if test="keyword != null and keyword != ''">
         and clo_name like concat('%',#{keyword},'%')
-        or clo_detail like concat('%',#{keyword},'%')
       </if>
     </where>
   </sql>
-  <!--查询全部服装（分页，高级查询）-->
+
   <select id="selectAll" resultMap="BaseResultMap" >
     select clo_id, clo_name, clo_price, clo_picture, clo_amount, clo_type from rent_clothes
     <include refid="where_sql"/>
     order by clo_id
-  </select>
-
-
-  <!--根据服装分类的id获取服装-->
-  <select id="getClothesWithTypeId" resultMap="BaseResultMap">
-    select * from rent_clothes where clo_type = #{cloType}
   </select>
 
 

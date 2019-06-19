@@ -8,10 +8,6 @@ import org.springframework.context.annotation.ImportResource;
  * @Description //TODO
  * @ProjectName: DJYZAtelier
  * @Package: com.djyz.config
- * @Author zou.hang
- * @Modifier
- * @Email: zouhang@xiaomi.com
- * @CreateTime 19-6-12 下午3:58
  * @ModifiedTime
  */
 @Import(WebMvcConfiguration.class)

@@ -26,9 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @author: hxy
- * @description: shiro配置类
- * @date: 2017/10/24 10:10
+ * @description: shiro配置
  */
 @Configuration
 public class ShiroConfiguration {
@@ -73,10 +71,8 @@ public class ShiroConfiguration {
         securityManager.setRealm(userRealm());
         return securityManager;
     }
-
     /**
      * 自定义realm
-     *
      * @return
      */
     @Bean
@@ -86,7 +82,6 @@ public class ShiroConfiguration {
         realm.setRoleDefinitions("admin=all\n user=all");
         return realm;
     }
-
 
     /**
      * 凭证匹配器

@@ -22,4 +22,6 @@ public interface RentClothesService {
     void updateRentClothes(RentClothes rentClothes);
 
     PageList getAllRentClothes(QueryVo vo);
+
+    List<RentClothes> getAllClothes(QueryVo vo);
 }

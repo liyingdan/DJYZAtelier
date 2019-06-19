@@ -22,6 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
         AjaxRes ajaxRes = new AjaxRes();
         try{
             customerMapper.insert(customer);
+            ajaxRes.setCustomer(customer);
             ajaxRes.setSuccess(true);
         }catch (Exception e){
             ajaxRes.setSuccess(false);
@@ -64,6 +65,37 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.selectByPrimaryKey(custId);
     }
 
+    /*上传照片*/
+    @Override
+    public AjaxRes addHeader(String headerPic) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            Customer customer = new Customer();
+            customer.setHeaderPic(headerPic);
+            customerMapper.updateByPrimaryKey(customer);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+
+    }
+
     /*修改个人资料*/
+    @Override
+    public AjaxRes editCustomer(Customer customer) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            customerMapper.updateByPrimaryKey(customer);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+    }
+
+
+
+
 
 }

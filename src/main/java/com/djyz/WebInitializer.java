@@ -13,17 +13,6 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration.Dynamic;
 import java.util.EnumSet;
-
-/**
- * @Description //TODO
- * @ProjectName: DJYZAtelier
- * @Package: com.djyz
- * @Author zou.hang
- * @Modifier
- * @Email: zouhang@xiaomi.com
- * @CreateTime 19-6-12 下午3:57
- * @ModifiedTime
- */
 public class WebInitializer implements WebApplicationInitializer {
 
     @Override
@@ -39,9 +28,9 @@ public class WebInitializer implements WebApplicationInitializer {
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("cors", new CORSFilter());
         corsFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
-        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
-        shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
-        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
+//        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
+//        shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+//        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
 
         FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
         characterEncodingFilter.setInitParameter("encoding", "utf-8");

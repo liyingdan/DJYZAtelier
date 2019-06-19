@@ -13,4 +13,6 @@ public interface ComboService {
     List<Combo> getAllCombo();
 
     Combo getComboWithId(Long coId);
+
+    List<Combo> getCombosWithAid(Long tid);
 }

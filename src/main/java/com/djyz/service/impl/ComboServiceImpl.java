@@ -86,4 +86,9 @@ public class ComboServiceImpl implements ComboService {
         return comboMapper.selectByPrimaryKey(coId);
     }
 
+    @Override
+    public List<Combo> getCombosWithAid(Long tid) {
+        return comboMapper.getCombosWithAid(tid);
+    }
+
 }

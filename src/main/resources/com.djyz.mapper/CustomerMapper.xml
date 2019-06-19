@@ -23,13 +23,14 @@
 
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.Customer" >
     update customer
-    set cust_name = #{custName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      cust_phone = #{custPhone,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      header_pic = #{headerPic,jdbcType=VARCHAR}
-    where cust_id = #{custId,jdbcType=BIGINT}
+    set cust_name = #{custName},
+      password = #{password},
+      cust_phone = #{custPhone},
+      address = #{address},
+      header_pic = #{headerPic}
+    where cust_id = #{custId}
   </update>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select cust_id, cust_name, password, cust_phone, address, header_pic
     from customer

@@ -15,4 +15,9 @@ public interface CustomerService {
 
 
     Customer getCustomerWithId(Long custId);
+
+
+    AjaxRes addHeader(String headerPic);
+
+    AjaxRes editCustomer(Customer customer);
 }

@@ -18,10 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @Description //TODO
  * @ProjectName: DJYZAtelier
  * @Package: com.djyz.config
- * @Author zou.hang
- * @Modifier
- * @Email: zouhang@xiaomi.com
- * @CreateTime 19-6-12 下午3:40
  * @ModifiedTime
  */
 @WebAppConfiguration
@@ -29,7 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 @EnableSwagger2
 public class WebMvcConfiguration implements WebMvcConfigurer {
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/web-static/");
@@ -37,10 +32,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/html/index.html");
+//        registry.addViewController("/").setViewName("redirect:/html/index.html");
+        registry.addViewController("/").setViewName("redirect:/swagger-ui.html");
     }
 
     @Bean

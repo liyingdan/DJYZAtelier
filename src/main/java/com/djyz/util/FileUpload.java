@@ -23,7 +23,7 @@ public class FileUpload {
         String filename = file.getOriginalFilename();
 
         String newnewName = UUID.randomUUID().toString()+filename.substring(filename.lastIndexOf("."),filename.length());
-        System.out.println("上传图片的时候弄得新名字呀--------------------------"+newnewName);
+        System.out.println("新名字--------------------------"+newnewName);
 
         uploadPath = new File(uploadPath+"/"+filename);
         //开始上传

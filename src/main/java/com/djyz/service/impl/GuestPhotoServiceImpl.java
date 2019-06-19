@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,35 @@ public class GuestPhotoServiceImpl implements GuestPhotoService {
 
     /*获取全部客照*/
     @Override
-    public List<GuestPhoto> getAllGuestPhoto() {
-        return guestPhotoMapper.selectAll();
+    public ArrayList getAllGuestPhoto() {
+//        return guestPhotoMapper.selectAll();
+        ArrayList list = new ArrayList<>();
+        List<GuestPhoto> guestPhotos = guestPhotoMapper.selectAll();
+//        System.out.println("guestPhotos--------------------------"+guestPhotos);
+        for (GuestPhoto guestPhoto : guestPhotos) {
+            ArrayList guestList = new ArrayList();
+            guestList.add(guestPhoto.getGuId());
+            guestList.add(guestPhoto.getGuTime());
+            //添加照片
+            ArrayList<String> photoLists = new ArrayList<>();
+            photoLists.add(guestPhoto.getGuPic1());
+            photoLists.add(guestPhoto.getGuPic2());
+            photoLists.add(guestPhoto.getGuPic3());
+            photoLists.add(guestPhoto.getGuPic4());
+            photoLists.add(guestPhoto.getGuPic5());
+            photoLists.add(guestPhoto.getGuPic6());
+            photoLists.add(guestPhoto.getGuPic7());
+            photoLists.add(guestPhoto.getGuPic8());
+            photoLists.add(guestPhoto.getGuPic9());
+            photoLists.add(guestPhoto.getGuPic10());
+
+            guestList.add(photoLists);
+            //添加每一组数据到list中
+            list.add(guestList);
+        }
+//        System.out.println("------------------"+list);
+
+        return list;
     }
 
     /*上传客照*/

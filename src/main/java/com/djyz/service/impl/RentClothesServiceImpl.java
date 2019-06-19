@@ -97,5 +97,11 @@ public class RentClothesServiceImpl implements RentClothesService {
         return pageList;
     }
 
+    /*查询全部-不分页-高级查询*/
+    @Override
+    public List<RentClothes> getAllClothes(QueryVo vo) {
+        return rentClothesMapper.selectAll(vo);
+    }
+
 
 }

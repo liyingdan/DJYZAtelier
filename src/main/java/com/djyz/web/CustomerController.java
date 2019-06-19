@@ -4,12 +4,10 @@ import com.djyz.domain.Customer;
 import com.djyz.service.CustomerService;
 import com.djyz.util.AjaxRes;
 import io.swagger.annotations.Api;
+import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class CustomerController {
     }
 
     /*注册--添加客户*/
-    @PostMapping("/addCustomer")
+    @GetMapping("/addCustomer")
     @ResponseBody
     public AjaxRes addCustomer(Customer customer){
         return customerService.addCustomer(customer);
@@ -45,6 +43,20 @@ public class CustomerController {
     @ResponseBody
     public Customer getCustomerWithId(@PathVariable Long custId){
        return customerService.getCustomerWithId(custId);
+    }
+
+    /*上传头像*/
+    @PostMapping("/addHeader/{headerPic}")
+    @ResponseBody
+    public AjaxRes addHeader(@PathVariable String headerPic ){
+        return customerService.addHeader(headerPic);
+    }
+
+    /*修改信息*/
+    @PutMapping("/editCustomer")
+    @ResponseBody
+    public AjaxRes editCustomer(Customer customer){
+        return customerService.editCustomer(customer);
     }
 
 

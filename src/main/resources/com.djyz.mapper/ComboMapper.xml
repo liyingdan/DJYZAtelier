@@ -71,4 +71,12 @@
     FROM combo cc LEFT JOIN combo_location cl ON cc.co_id = cl.cid
     LEFT JOIN shooting_location sl ON cl.lid = sl.lid;
   </select>
+
+    <select id="getCombosWithAid" resultMap="BaseResultMap">
+      SELECT *
+      FROM combo cc LEFT JOIN combo_location cl ON cc.co_id = cl.cid
+      LEFT JOIN shooting_location sl ON cl.lid = sl.lid
+      where co_type = #{tid}
+
+    </select>
 </mapper>

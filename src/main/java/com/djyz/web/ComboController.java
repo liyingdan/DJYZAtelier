@@ -46,6 +46,13 @@ public class ComboController {
         return comboService.addCombo(combo,files,smPicture,session);
     }
 
+    /*根据套餐分类id获取该类所有套餐*/
+    @GetMapping("/getCombosWithAid/{tid}")
+    @ResponseBody
+    public List<Combo> getCombosWithAid(@PathVariable Long tid){
+        return comboService.getCombosWithAid(tid);
+    }
+
 
 
 }

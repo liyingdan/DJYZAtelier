@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,7 +22,7 @@ public class GuestPhotoController {
     /*获取全部客照*/
     @GetMapping("/getAllGuestPhoto")
     @ResponseBody
-    public List<GuestPhoto> getAllGuestPhoto(){
+    public ArrayList getAllGuestPhoto(){
         return guestPhotoService.getAllGuestPhoto();
     }
 

@@ -17,4 +17,6 @@ public interface ComboMapper {
     int updateByPrimaryKey(Combo record);
 
     void insertComboLocationRel(@Param("coId") Long coId, @Param("lid") Long lid);
+
+    List<Combo> getCombosWithAid(Long tid);
 }
