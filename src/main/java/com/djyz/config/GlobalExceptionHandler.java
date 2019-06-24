@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author: hxy
- * @description: 统一异常拦截
- * @date: 2017/10/24 10:31
- */
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {

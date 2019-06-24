@@ -6,12 +6,14 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.text.TextConfigurationRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -55,7 +57,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -76,10 +78,14 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    public Realm userRealm() {
+    /*public Realm userRealm() {
         TextConfigurationRealm realm = new TextConfigurationRealm();
         realm.setUserDefinitions("sang=123,user\n admin=123,admin");
         realm.setRoleDefinitions("admin=all\n user=all");
+        return realm;
+    }*/
+    public Realm userRealm() {
+        EmployeeRealm realm = new EmployeeRealm();
         return realm;
     }
 
@@ -129,8 +135,8 @@ public class ShiroConfiguration {
         return authorizationAttributeSourceAdvisor;
     }
 
-    public static class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter {
 
+    public static class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter {
         @Override
         protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
             JSONObject jsonObject = new JSONObject();

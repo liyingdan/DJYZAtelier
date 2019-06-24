@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class ClothesOrderState {
-    private Integer cosId;
+    private Long cosId;
+
     private String cosName;
+
 
 }

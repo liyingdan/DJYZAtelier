@@ -15,4 +15,6 @@ public interface ComboService {
     Combo getComboWithId(Long coId);
 
     List<Combo> getCombosWithAid(Long tid);
+
+    AjaxRes deleteCombosWith(Long comOrderId);
 }

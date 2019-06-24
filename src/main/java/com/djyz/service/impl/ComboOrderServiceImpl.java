@@ -6,6 +6,10 @@ import com.djyz.mapper.ComboOrderStateMapper;
 import com.djyz.mapper.ShootingLocationMapper;
 import com.djyz.service.ComboOrderService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +28,7 @@ public class ComboOrderServiceImpl implements ComboOrderService {
     private ComboOrderStateMapper comboOrderStateMapper;
 
 
-    /*查询全部订单*/
-    @Override
-    public List<ComboOrder> getAllComboOrders() {
-        return comboOrderMapper.selectAll();
-    }
+
 
     /**参数：comOrderId（自动生成），price,
      *      comOderDate(自动生成今天日期)，startDate（拍摄日期，点击拍摄地点进行选择（几号）），
@@ -115,6 +115,26 @@ public class ComboOrderServiceImpl implements ComboOrderService {
         }
         return ajaxRes;
 
+    }
+
+    /*根据客户id查询订单*/
+    @Override
+    public List<ComboOrder> getComboOrderWithCustId(Long custId) {
+        return comboOrderMapper.getComboOrderWithCustId(custId);
+    }
+
+    /*查询全部订单-分页*/
+    @Override
+    public PageList getAllComboOrders(QueryVo vo) {
+        Page<Object> page = PageHelper.startPage(vo.getPageNum(), vo.getRows());
+
+        List<ComboOrder> comboOrders = comboOrderMapper.selectAll();
+
+        PageList pageList = new PageList();
+        pageList.setTotal(page.getTotal());
+        pageList.setRows(comboOrders);
+
+        return pageList;
     }
 
 

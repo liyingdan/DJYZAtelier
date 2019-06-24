@@ -39,9 +39,9 @@
     insert into combo_order (price, com_oder_date, start_date, shooting_state, combo_id, shootting_location_id, customer_id)
     values (#{price}, #{comOderDate}, #{startDate}, #{comboOrderState.os_id}, #{combo.coId}, #{shootingLocation.lid} , #{customer.custId})
   </insert>-->
-  <insert id="insert" parameterType="com.djyz.domain.ComboOrder" useGeneratedKeys="true" keyProperty="comOrderId" >
-    insert into combo_order (price, com_oder_date, start_date, shooting_state, combo_id, shootting_location_id, customer_id)
-    values (#{price}, #{comOderDate}, #{startDate}, #{shootingState}, #{coId}, #{lid} , #{custId})
+  <insert id="insert" useGeneratedKeys="true" keyProperty="comOrderId" >
+    insert into combo_order (price, com_oder_date, start_date, combo_id, shootting_location_id, customer_id, shooting_state)
+    values (#{price}, #{comOderDate}, #{startDate}, #{coId}, #{lid} , #{custId}, #{shootingState})
   </insert>
 
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
@@ -63,34 +63,45 @@
   </update>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    SELECT coo.com_order_id, coo.price, coo.com_oder_date, coo.start_date, cu.cust_id, cu.cust_name, cc.co_id, cc.co_name, cc.co_desc, sl.lid, sl.lname,coss.os_state
+    SELECT *
     FROM combo_order coo
     LEFT JOIN customer cu ON coo.customer_id = cu.cust_id
     LEFT JOIN combo cc ON coo.combo_id = cc.co_id
     LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
-    LEFT JOIN combo_order_state coss ON coo.start_date = coss.os_id
+    LEFT JOIN combo_order_state coss ON coo.shooting_state = coss.os_id
     where com_order_id = #{comOrderId}
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap" >
-    SELECT coo.com_order_id, coo.price, coo.com_oder_date, coo.start_date, cu.cust_id, cu.cust_name, cc.co_id, cc.co_name, cc.co_desc, sl.lid, sl.lname,coss.os_state
+    SELECT *
     FROM combo_order coo
     LEFT JOIN customer cu ON coo.customer_id = cu.cust_id
     LEFT JOIN combo cc ON coo.combo_id = cc.co_id
     LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
-    LEFT JOIN combo_order_state coss ON coo.start_date = coss.os_id
-    order by coo.com_order_id
-    ;
+    LEFT JOIN combo_order_state coss ON coo.shooting_state = coss.os_id
+
   </select>
+
   <select id="getComboOrdersWithId" resultMap="BaseResultMap" >
-    SELECT coo.com_order_id, coo.price, coo.com_oder_date, coo.start_date, cu.cust_id, cu.cust_name, cc.co_id, cc.co_name, cc.co_desc, sl.lid, sl.lname,coss.os_state
+    SELECT *
     FROM combo_order coo
     LEFT JOIN customer cu ON coo.customer_id = cu.cust_id
     LEFT JOIN combo cc ON coo.combo_id = cc.co_id
     LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
-    LEFT JOIN combo_order_state coss ON coo.start_date = coss.os_id
+    LEFT JOIN combo_order_state coss ON coo.shooting_state = coss.os_id
     where com_order_id = #{comOrderId}
   </select>
+
+  <!--根据客户id查询订单-->
+    <select id="getComboOrderWithCustId" resultMap="BaseResultMap">
+      SELECT *
+    FROM combo_order coo
+    LEFT JOIN customer cu ON coo.customer_id = cu.cust_id
+    LEFT JOIN combo cc ON coo.combo_id = cc.co_id
+    LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
+    LEFT JOIN combo_order_state coss ON coo.shooting_state = coss.os_id
+    where customer_id = #{custId}
+    </select>
 
 
 </mapper>

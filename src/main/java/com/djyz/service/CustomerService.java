@@ -2,6 +2,8 @@ package com.djyz.service;
 
 import com.djyz.domain.Customer;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface CustomerService {
 
     AjaxRes addCustomer(Customer customer);
 
-    List<Customer> getAllCustomer();
+    PageList getAllCustomer(QueryVo vo);
 
     AjaxRes customerLogin(Customer customer);
 
@@ -20,4 +22,6 @@ public interface CustomerService {
     AjaxRes addHeader(String headerPic);
 
     AjaxRes editCustomer(Customer customer);
+
+    AjaxRes deleteCustomer(Long custId);
 }

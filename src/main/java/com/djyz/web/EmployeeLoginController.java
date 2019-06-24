@@ -1,6 +1,8 @@
 package com.djyz.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.djyz.config.CookieUtils;
+import com.djyz.config.EmployeeRealm;
 import com.djyz.util.CommonUtil;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
@@ -8,37 +10,36 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * @author: hxy
- * @description: 登录相关Controller
- * @date: 2017/10/24 10:33
- */
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @Controller
-@Api(value = "/Login", tags = "Login接口")
-public class LoginController {
-
+@Api(value = "/EmployeeLogin", tags = "EmployeeLogin接口")
+public class EmployeeLoginController {
+	final String TOKENX = "1234";
 	/**
 	 * 登录
 	 */
-	@PostMapping("/login")
+	@PostMapping("/login/{username}/{password}")
 	@ResponseBody
-	public JSONObject authLogin(@RequestBody JSONObject requestJson) {
-		String username = requestJson.getString("username");
-		String password = requestJson.getString("password");
+	public JSONObject authLogin(@PathVariable String username, @PathVariable String password, HttpServletResponse response,
+								@CookieValue(value = "token", required = false) String tokenn) {
 		JSONObject info = new JSONObject();
 		Subject currentUser = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		try {
 			currentUser.login(token);
+			info.put("username",username);
 			info.put("result", "success");
 		} catch (AuthenticationException e) {
 			info.put("result", "fail");
+		}
+		if (tokenn == null) {
+			CookieUtils.writeCookie(response, "tokenn", TOKENX);
 		}
 		return CommonUtil.successJson(info);
 	}

@@ -4,6 +4,8 @@ import com.djyz.domain.ComboOrder;
 import com.djyz.domain.ComboOrderState;
 import com.djyz.service.ComboOrderService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,13 @@ public class ComboOrderController {
     @Autowired
     private ComboOrderService comboOrderService;
 
-    /*获取全部订单*/
+    /*获取全部订单-分页*/
     @GetMapping("/getAllComboOrders")
     @ResponseBody
-    public List<ComboOrder> getAllComboOrders(){
-        return comboOrderService.getAllComboOrders();
+    public PageList getAllComboOrders(QueryVo vo){
+        PageList allComboOrders = comboOrderService.getAllComboOrders(vo);
+        System.out.println(allComboOrders);
+        return allComboOrders;
     }
 
     /*添加订单-*/
@@ -51,11 +55,18 @@ public class ComboOrderController {
         return comboOrderService.getAllOrderStates();
     }
 
-    /*修改订单状态*/
-    @PutMapping("/editOrderStateWithId/{comOrderId}/{osId}")
+    /*修改订单状态  combo_order_state中的osId*/
+    @GetMapping("/editOrderStateWithId/{comOrderId}/{osId}")
     @ResponseBody
     public AjaxRes editOrderStateWithId(@PathVariable Long comOrderId,@PathVariable Long osId){
         return comboOrderService.editOrderStateWithId(comOrderId,osId);
+    }
+
+    /*根据客户id查询订单*/
+    @GetMapping("/getComboOrderWithCustId/{custId}")
+    @ResponseBody
+    public List<ComboOrder> getComboOrderWithCustId(@PathVariable Long custId){
+        return comboOrderService.getComboOrderWithCustId(custId);
     }
 
 

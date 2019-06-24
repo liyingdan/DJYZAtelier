@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.djyz.mapper.EmployeeMapper" >
+
   <resultMap id="BaseResultMap" type="com.djyz.domain.Employee" >
     <id column="eid" property="eid" jdbcType="BIGINT" />
-    <result column="ename" property="ename" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="role" property="role" jdbcType="BIGINT" />
+    <association property="role" javaType="com.djyz.domain.Role">
+      <id column="rid" property="rid" jdbcType="BIGINT" />
+      <result column="rname" property="rname" jdbcType="VARCHAR" />
+    </association>
   </resultMap>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from employee
-    where eid = #{eid,jdbcType=BIGINT}
+    delete from employee where eid = #{eid}
   </delete>
+
+  <!--添加员工-->
   <insert id="insert" parameterType="com.djyz.domain.Employee" >
-    insert into employee (eid, ename, password, 
-      role)
-    values (#{eid,jdbcType=BIGINT}, #{ename,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{role,jdbcType=BIGINT})
+    insert into employee (eid, username, password, rid) values (#{eid}, #{username}, #{password}, #{role.rid})
   </insert>
+
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.Employee" >
-    update employee
-    set ename = #{ename,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      role = #{role,jdbcType=BIGINT}
-    where eid = #{eid,jdbcType=BIGINT}
+    update employee set username = #{username},password = #{password}, rid = #{role.rid}
+    where eid = #{eid}
   </update>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select eid, ename, password, role
-    from employee
+    select * from employee e LEFT JOIN role r ON e.rid = r.rid
     where eid = #{eid,jdbcType=BIGINT}
   </select>
+
   <select id="selectAll" resultMap="BaseResultMap" >
-    select eid, ename, password, role
-    from employee
+    SELECT * FROM employee e LEFT JOIN role r ON e.rid = r.rid;
   </select>
+
+  <!--根据username查询员工-->
+  <select id="getEmployeeWithUsername" resultMap="BaseResultMap">
+      select * from employee e LEFT JOIN role r ON e.rid = r.rid
+      where username = #{username}
+   </select>
+
+  <!--根据员工id查询角色编号名称-->
+  <select id="getRolesByEid" resultType="java.lang.String">
+    SELECT r.rname FROM employee e LEFT JOIN role r ON e.rid = r.rid WHERE eid = #{eid}
+  </select>
+
+
+  <!--根据员工id查询权限-->
+  <select id="getPermissionsByEid" resultType="java.lang.String">
+    SELECT p.presource FROM employee e
+    LEFT JOIN role_permission_rel rpl ON e.rid = rpl.rid
+    LEFT JOIN permission p ON rpl.pid = p.pid where eid = #{eid}
+  </select>
+
+
+
 </mapper>

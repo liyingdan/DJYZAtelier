@@ -2,26 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.djyz.mapper.ClothesOrderStateMapper" >
   <resultMap id="BaseResultMap" type="com.djyz.domain.ClothesOrderState" >
-    <id column="cos_id" property="cosId" jdbcType="INTEGER" />
+    <id column="cos_id" property="cosId" jdbcType="BIGINT" />
     <result column="cos_name" property="cosName" jdbcType="VARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from clothes_order_state
-    where cos_id = #{cosId,jdbcType=INTEGER}
+    where cos_id = #{cosId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.djyz.domain.ClothesOrderState" >
     insert into clothes_order_state (cos_id, cos_name)
-    values (#{cosId,jdbcType=INTEGER}, #{cosName,jdbcType=VARCHAR})
+    values (#{cosId,jdbcType=BIGINT}, #{cosName,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ClothesOrderState" >
     update clothes_order_state
     set cos_name = #{cosName,jdbcType=VARCHAR}
-    where cos_id = #{cosId,jdbcType=INTEGER}
+    where cos_id = #{cosId,jdbcType=BIGINT}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select cos_id, cos_name
     from clothes_order_state
-    where cos_id = #{cosId,jdbcType=INTEGER}
+    where cos_id = #{cosId,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select cos_id, cos_name

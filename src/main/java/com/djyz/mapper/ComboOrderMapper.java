@@ -26,4 +26,6 @@ public interface ComboOrderMapper {
     ComboOrder getComboOrdersWithId(Long comOrderId);
 
     void editOrderStateWithId(@Param("comOrderId") Long comOrderId, @Param("osId") Long osId);
+
+    List<ComboOrder> getComboOrderWithCustId(Long custId);
 }

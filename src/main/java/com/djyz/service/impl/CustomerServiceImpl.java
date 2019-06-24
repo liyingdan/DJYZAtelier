@@ -4,6 +4,10 @@ import com.djyz.domain.Customer;
 import com.djyz.mapper.CustomerMapper;
 import com.djyz.service.CustomerService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +34,20 @@ public class CustomerServiceImpl implements CustomerService {
         return ajaxRes;
     }
 
+    /*查询所有客户---分页*/
     @Override
-    public List<Customer> getAllCustomer() {
-        return customerMapper.selectAll();
+    public PageList getAllCustomer(QueryVo vo) {
+        Page<Object> page = PageHelper.startPage(vo.getPageNum(), vo.getRows());
+
+        List<Customer> customers = customerMapper.selectAll();
+
+        /*分装pageList*/
+        PageList pageList = new PageList();
+        pageList.setTotal(page.getTotal());
+        pageList.setRows(customers);
+
+        return pageList;
+
     }
 
     /*登录*/
@@ -94,8 +109,18 @@ public class CustomerServiceImpl implements CustomerService {
         return ajaxRes;
     }
 
-
-
+    /*根据id删除客户*/
+    @Override
+    public AjaxRes deleteCustomer(Long custId) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            customerMapper.deleteByPrimaryKey(custId);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+    }
 
 
 }

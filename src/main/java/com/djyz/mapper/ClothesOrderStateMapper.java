@@ -4,11 +4,11 @@ import com.djyz.domain.ClothesOrderState;
 import java.util.List;
 
 public interface ClothesOrderStateMapper {
-    int deleteByPrimaryKey(Integer cosId);
+    int deleteByPrimaryKey(Long cosId);
 
     int insert(ClothesOrderState record);
 
-    ClothesOrderState selectByPrimaryKey(Integer cosId);
+    ClothesOrderState selectByPrimaryKey(Long cosId);
 
     List<ClothesOrderState> selectAll();
 

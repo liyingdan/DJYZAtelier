@@ -14,7 +14,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration.Dynamic;
 import java.util.EnumSet;
 public class WebInitializer implements WebApplicationInitializer {
-
     @Override
     public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
@@ -28,9 +27,9 @@ public class WebInitializer implements WebApplicationInitializer {
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("cors", new CORSFilter());
         corsFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
-//        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
-//        shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
-//        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
+        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
+        shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
 
         FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
         characterEncodingFilter.setInitParameter("encoding", "utf-8");

@@ -3,6 +3,8 @@ package com.djyz.web;
 import com.djyz.domain.Customer;
 import com.djyz.service.CustomerService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
 import io.swagger.annotations.Api;
 import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,11 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    /*查询所有客户*/
+    /*查询所有客户---分页*/
     @GetMapping("/getAllCustomer")
     @ResponseBody
-    public List<Customer> getAllCustomer(){
-        return customerService.getAllCustomer();
+    public PageList getAllCustomer(QueryVo vo){
+        return customerService.getAllCustomer(vo);
     }
 
     /*注册--添加客户*/
@@ -57,6 +59,14 @@ public class CustomerController {
     @ResponseBody
     public AjaxRes editCustomer(Customer customer){
         return customerService.editCustomer(customer);
+    }
+
+
+    /*根据id删除客户*/
+    @DeleteMapping("/deleteCustomer/{custId}")
+    @ResponseBody
+    public AjaxRes deleteCustomer(@PathVariable Long custId){
+        return customerService.deleteCustomer(custId);
     }
 
 

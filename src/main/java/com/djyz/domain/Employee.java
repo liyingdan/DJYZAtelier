@@ -6,11 +6,12 @@ import lombok.Data;
 public class Employee {
     private Long eid;
 
-    private String ename;
+    private String username;
 
     private String password;
 
-    private Long role;
+//    private Long rid;
+    private Role role;
 
 
 }
