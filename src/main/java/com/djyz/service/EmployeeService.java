@@ -20,4 +20,6 @@ public interface EmployeeService {
     ArrayList<String> getRolesByEid(Long eid);
 
     ArrayList<String> getPermissionsByEid(Long eid);
+
+    AjaxRes employeeLogin(Employee employee);
 }

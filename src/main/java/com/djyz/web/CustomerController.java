@@ -55,7 +55,7 @@ public class CustomerController {
     }
 
     /*修改信息*/
-    @PutMapping("/editCustomer")
+    @GetMapping("/editCustomer")
     @ResponseBody
     public AjaxRes editCustomer(Customer customer){
         return customerService.editCustomer(customer);

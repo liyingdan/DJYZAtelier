@@ -5,12 +5,11 @@ import com.djyz.mapper.ComboOrderMapper;
 import com.djyz.mapper.ComboOrderStateMapper;
 import com.djyz.mapper.ShootingLocationMapper;
 import com.djyz.service.ComboOrderService;
-import com.djyz.util.AjaxRes;
-import com.djyz.util.PageList;
-import com.djyz.util.QueryVo;
+import com.djyz.util.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +27,6 @@ public class ComboOrderServiceImpl implements ComboOrderService {
     private ComboOrderStateMapper comboOrderStateMapper;
 
 
-
-
     /**参数：comOrderId（自动生成），price,
      *      comOderDate(自动生成今天日期)，startDate（拍摄日期，点击拍摄地点进行选择（几号）），
      *      combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）*/
@@ -44,45 +41,35 @@ public class ComboOrderServiceImpl implements ComboOrderService {
             Long shootingState = 1L;
             //添加订单
             comboOrderMapper.insert(coId,custId,lid,price,startDate,comOderDate,shootingState);
+            //shooting_location对应不同的天数
             //在shooting_days中增加那天的预定次数 首先，从shooting_location中查出天数，再看看往哪个shooting_days表中添加次数
             ShootingLocation shootingLocation = shootingLocationMapper.selectByPrimaryKey(lid);
-            //往shooting_days3表中添加次数
+
+            //往各自的shooting_days表中添加次数
+            ShootingDays5 datesWithStartDay = null;
             if(shootingLocation.getShootingDays() == 3){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay3(startDate);
-                Long shootingTimes = datesWithStartDay.getShootingTimes();
-                shootingTimes += 1;
-                datesWithStartDay.setShootingTimes(shootingTimes);
-                //更新次数
-                shootingLocationMapper.updateShootingTimes3(datesWithStartDay);
-            }
-            //往shooting_days5表中添加次数
-            if(shootingLocation.getShootingDays() == 5){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay5(startDate);
-                Long shootingTimes = datesWithStartDay.getShootingTimes();
-                shootingTimes += 1;
-                datesWithStartDay.setShootingTimes(shootingTimes);
-                //更新次数
-                shootingLocationMapper.updateShootingTimes5(datesWithStartDay);
-            }
-            //往shooting_days7表中添加次数
-            if(shootingLocation.getShootingDays() == 7){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay7(startDate);
-                Long shootingTimes = datesWithStartDay.getShootingTimes();
-                shootingTimes += 1;
-                datesWithStartDay.setShootingTimes(shootingTimes);
-                //更新次数
-                shootingLocationMapper.updateShootingTimes7(datesWithStartDay);
-            }
-            //往shooting_days10表中添加次数
-            if(shootingLocation.getShootingDays() == 10){
-                ShootingDays5 datesWithStartDay = shootingLocationMapper.getDatesWithStartDay10(startDate);
-                Long shootingTimes = datesWithStartDay.getShootingTimes();
-                shootingTimes += 1;
-                datesWithStartDay.setShootingTimes(shootingTimes);
-                //更新次数
-                shootingLocationMapper.updateShootingTimes10(datesWithStartDay);
+                datesWithStartDay =  shootingLocationMapper.getDatesWithStartDay3(startDate);
+            } else if(shootingLocation.getShootingDays() == 5){
+                datesWithStartDay = shootingLocationMapper.getDatesWithStartDay5(startDate);
+            } else if(shootingLocation.getShootingDays() == 7){
+                datesWithStartDay = shootingLocationMapper.getDatesWithStartDay7(startDate);
+            }else {
+                datesWithStartDay = shootingLocationMapper.getDatesWithStartDay10(startDate);
             }
 
+            Long shootingTimes = datesWithStartDay.getShootingTimes();
+            shootingTimes += 1;
+            datesWithStartDay.setShootingTimes(shootingTimes);
+
+            if(shootingLocation.getShootingDays() == 3){
+                shootingLocationMapper.updateShootingTimes3(datesWithStartDay);
+            } else if(shootingLocation.getShootingDays() == 5){
+                shootingLocationMapper.updateShootingTimes5(datesWithStartDay);
+            } else if(shootingLocation.getShootingDays() == 7){
+                shootingLocationMapper.updateShootingTimes7(datesWithStartDay);
+            }else {
+                shootingLocationMapper.updateShootingTimes10(datesWithStartDay);
+            }
             ajaxRes.setMsg("预约成功");
             ajaxRes.setSuccess(true);
         }catch (Exception e){
@@ -91,6 +78,12 @@ public class ComboOrderServiceImpl implements ComboOrderService {
         }
         return ajaxRes;
     }
+
+
+
+
+
+
 
     @Override
     public ComboOrder getComboOrdersWithId(Long comOrderId) {
@@ -135,6 +128,19 @@ public class ComboOrderServiceImpl implements ComboOrderService {
         pageList.setRows(comboOrders);
 
         return pageList;
+    }
+
+    /*拍摄完成后上传图片-字符串*/
+    @Override
+    public AjaxRes addPic(String pic) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            comboOrderMapper.addPic(pic);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
     }
 
 

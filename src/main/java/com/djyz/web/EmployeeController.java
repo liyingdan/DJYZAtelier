@@ -39,6 +39,13 @@ public class EmployeeController {
         return employeeService.getEmployeeWithUsername(username);
     }
 
+    /*根据username登录*/
+    @GetMapping("/employeeLogin")
+    @ResponseBody
+    public AjaxRes employeeLogin(Employee employee){
+        return employeeService.employeeLogin(employee);
+    }
+
     /*添加员工*/
     @GetMapping("/addEmployee")
     @ResponseBody
@@ -59,6 +66,14 @@ public class EmployeeController {
     public AjaxRes editEmployee(Employee employee){
         return employeeService.editEmployee(employee);
     }
+
+    //根据员工id查询权限
+    @GetMapping("/getPermissionsByEid/{eid}")
+    @ResponseBody
+    public List<String> getPermissionsByEid(@PathVariable Long eid){
+        return employeeService.getPermissionsByEid(eid);
+    }
+
 
 
 

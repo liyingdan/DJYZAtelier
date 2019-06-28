@@ -1,8 +1,6 @@
 package com.djyz.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.djyz.config.CookieUtils;
-import com.djyz.config.EmployeeRealm;
 import com.djyz.util.CommonUtil;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
@@ -10,12 +8,11 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @Api(value = "/EmployeeLogin", tags = "EmployeeLogin接口")
@@ -26,8 +23,7 @@ public class EmployeeLoginController {
 	 */
 	@PostMapping("/login/{username}/{password}")
 	@ResponseBody
-	public JSONObject authLogin(@PathVariable String username, @PathVariable String password, HttpServletResponse response,
-								@CookieValue(value = "token", required = false) String tokenn) {
+	public JSONObject authLogin(@PathVariable String username, @PathVariable String password, HttpServletResponse response) {
 		JSONObject info = new JSONObject();
 		Subject currentUser = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -38,9 +34,9 @@ public class EmployeeLoginController {
 		} catch (AuthenticationException e) {
 			info.put("result", "fail");
 		}
-		if (tokenn == null) {
-			CookieUtils.writeCookie(response, "tokenn", TOKENX);
-		}
+		Cookie cookie = new Cookie("token", "token");
+		cookie.setMaxAge(60*60*24);
+		response.addCookie(cookie);
 		return CommonUtil.successJson(info);
 	}
 

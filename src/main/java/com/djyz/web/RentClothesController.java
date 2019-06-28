@@ -120,7 +120,7 @@ public class RentClothesController {
 
     }
 
-    /*查询全部-不分页-高级查询*/
+    /*查询租赁服装-不分页-高级查询*/
     @GetMapping("/getAllClothes")
     @ResponseBody
     public List<RentClothes> getAllClothes(QueryVo vo){

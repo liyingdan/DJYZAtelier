@@ -9,10 +9,7 @@ import java.util.Random;
     /**
      * @Desc:   * 订单编码码生成器，生成32位数字编码，
      * @生成规则 1位单号类型+17位时间戳+14位(用户id加密&随机数)
-     * @Author HealerJean
-     * @Date 2018/8/21  下午2:43.
      */
-
     @Configuration
     public class OrderCoderUtil {
 

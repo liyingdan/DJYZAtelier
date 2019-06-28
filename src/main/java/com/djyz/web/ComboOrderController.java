@@ -69,6 +69,15 @@ public class ComboOrderController {
         return comboOrderService.getComboOrderWithCustId(custId);
     }
 
+    /*拍摄完成后上传图片-字符串*/
+    @PostMapping("/addPic/{pic}")
+    @ResponseBody
+    public AjaxRes addPic(@PathVariable String pic){
+        return comboOrderService.addPic(pic);
+    }
+
+
+
 
 
 

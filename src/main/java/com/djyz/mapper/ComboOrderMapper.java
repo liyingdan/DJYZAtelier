@@ -28,4 +28,6 @@ public interface ComboOrderMapper {
     void editOrderStateWithId(@Param("comOrderId") Long comOrderId, @Param("osId") Long osId);
 
     List<ComboOrder> getComboOrderWithCustId(Long custId);
+
+    void addPic(String pic);
 }

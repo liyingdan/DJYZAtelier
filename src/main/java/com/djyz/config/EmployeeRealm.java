@@ -22,7 +22,6 @@ public class EmployeeRealm extends AuthorizingRealm {
     /*认证*/
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("EmployeeRealm*********************");
         //获取登录提交的信息
         String username = (String)token.getPrincipal();
         //到数据库中查询有没有用户
@@ -47,11 +46,9 @@ public class EmployeeRealm extends AuthorizingRealm {
         ArrayList<String> permissions = new ArrayList<>();
         //查询角色
         roles = employeeService.getRolesByEid(employee.getEid());
-        System.out.println("role-----------------"+roles);
 
         //根据角色id查询权限
         permissions = employeeService.getPermissionsByEid(employee.getEid());
-        System.out.println("permissions-----------"+permissions);
 
         //给授权信息
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();

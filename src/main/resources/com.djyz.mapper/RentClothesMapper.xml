@@ -29,7 +29,8 @@
     where clo_id = #{cloId}
   </update>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select clo_id, clo_name, clo_price, clo_picture, clo_amount, clo_type
     from rent_clothes
     where clo_id = #{cloId}

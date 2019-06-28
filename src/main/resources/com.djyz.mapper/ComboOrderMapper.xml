@@ -44,7 +44,13 @@
     values (#{price}, #{comOderDate}, #{startDate}, #{coId}, #{lid} , #{custId}, #{shootingState})
   </insert>
 
-  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
+  <!--拍摄完成后上传图片-字符串-->
+    <insert id="addPic">
+      insert into `picture` (ppic) value (#{pic})
+
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
     update combo_order
     set price = #{price},
       com_oder_date = #{comOderDate},

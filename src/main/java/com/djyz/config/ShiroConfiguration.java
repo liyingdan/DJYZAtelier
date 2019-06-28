@@ -78,12 +78,6 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    /*public Realm userRealm() {
-        TextConfigurationRealm realm = new TextConfigurationRealm();
-        realm.setUserDefinitions("sang=123,user\n admin=123,admin");
-        realm.setRoleDefinitions("admin=all\n user=all");
-        return realm;
-    }*/
     public Realm userRealm() {
         EmployeeRealm realm = new EmployeeRealm();
         return realm;

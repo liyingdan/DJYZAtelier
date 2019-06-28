@@ -19,7 +19,6 @@ public interface RentClothesMapper {
 
     List<RentClothes> getClothesWithTypeId(Long cloType);
 
-//    List<RentClothes> selectAllClothes(@Param("keyword") String keyword, @Param("price") Double price, @Param("ctype") int ctype);
 
-//    List<RentClothes> selectAll(String keyword);
+
 }

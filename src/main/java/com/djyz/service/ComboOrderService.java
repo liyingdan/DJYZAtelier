@@ -23,4 +23,6 @@ AjaxRes addComboOrders(Long coId, Long custId, Long lid, Double price, String st
     List<ComboOrder> getComboOrderWithCustId(Long custId);
 
     PageList getAllComboOrders(QueryVo vo);
+
+    AjaxRes addPic(String pic);
 }

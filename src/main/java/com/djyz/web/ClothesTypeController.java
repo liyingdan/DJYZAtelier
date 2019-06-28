@@ -26,6 +26,7 @@ import java.util.List;
  * ShootingLocation---增加摄影地点，根据地点获取可拍摄的天数（添加摄影套餐预定之前）✔✔
  * RentClothesOrder
  *（剩下员工权限和衣服订单！）
+ * 问题：跨域上传图片，权限管理cookie跨域
  * */
 
 @Controller
