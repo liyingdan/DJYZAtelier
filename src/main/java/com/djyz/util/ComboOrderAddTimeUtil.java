@@ -39,7 +39,6 @@ public class ComboOrderAddTimeUtil {
 
     //主体方法-更新次数
     public void addTime(Long shootingDays,String startDate){
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa**************************");
         ShootingDays5 datesWithStartDay = getdatesWithStartDay(shootingDays, startDate);
         System.out.println("datesWithStartDay-------------------"+datesWithStartDay);
         Long shootingTimes = datesWithStartDay.getShootingTimes();

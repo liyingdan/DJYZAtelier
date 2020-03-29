@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class EmployeeLoginController {
 	final String TOKENX = "1234";
 	/**
-	 * 登录
+	 * employee登录
 	 */
 	@PostMapping("/login/{username}/{password}")
 	@ResponseBody
@@ -34,9 +34,6 @@ public class EmployeeLoginController {
 		} catch (AuthenticationException e) {
 			info.put("result", "fail");
 		}
-		Cookie cookie = new Cookie("token", "token");
-		cookie.setMaxAge(60*60*24);
-		response.addCookie(cookie);
 		return CommonUtil.successJson(info);
 	}
 
@@ -44,7 +41,7 @@ public class EmployeeLoginController {
 	 * 查询当前登录用户的信息
 	 */
 	@ResponseBody
-	@RequiresPermissions("all")
+//	@RequiresPermissions("all")
 	@GetMapping("/getInfo")
 	public Object getInfo() {
 		//从session获取用户信息
@@ -54,7 +51,7 @@ public class EmployeeLoginController {
 	}
 
 	/**
-	 * 登出
+	 * 退出登录
 	 */
 	@ResponseBody
 	@GetMapping("/logout")

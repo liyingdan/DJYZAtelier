@@ -1,8 +1,11 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.Employee;
 import com.djyz.service.EmployeeService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.CommonUtil;
+import com.djyz.util.StatusEnum;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +20,12 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    /*进入后台首页*/
+    /*进入后台员工页面*/
     @GetMapping("/employeeIndex")
     @RequiresPermissions("employee:index")
     @ResponseBody
-    public String employee(){
-        return "employeeIndex";
+    public JSONObject employeeIndex(){
+        return CommonUtil.successJson();
     }
 
     /*获取全部员工*/
@@ -37,13 +40,6 @@ public class EmployeeController {
     @ResponseBody
     public Employee getEmployeeWithUsername(@PathVariable String username){
         return employeeService.getEmployeeWithUsername(username);
-    }
-
-    /*根据username登录*/
-    @GetMapping("/employeeLogin")
-    @ResponseBody
-    public AjaxRes employeeLogin(Employee employee){
-        return employeeService.employeeLogin(employee);
     }
 
     /*添加员工*/
@@ -73,10 +69,5 @@ public class EmployeeController {
     public List<String> getPermissionsByEid(@PathVariable Long eid){
         return employeeService.getPermissionsByEid(eid);
     }
-
-
-
-
-
 
 }

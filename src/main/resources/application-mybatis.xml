@@ -10,6 +10,8 @@
      http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
 ">
+    <import resource="classpath:redis-context.xml"/>
+
     <!--spring-Mybatis整合-->
     <!--加载数据库属性文件-->
     <context:property-placeholder location="classpath:db.properties"/>

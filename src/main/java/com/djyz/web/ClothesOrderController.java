@@ -1,9 +1,13 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.ClothesOrder;
 import com.djyz.service.ClothesOrderService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.CommonUtil;
+import com.djyz.util.StatusEnum;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,14 @@ import java.util.List;
 public class ClothesOrderController {
     @Autowired
     private ClothesOrderService clothesOrderService;
+
+    /*服装订单主页*/
+    @GetMapping("/clothesOrderIndex")
+    @RequiresPermissions("clothesorder:index")
+    @ResponseBody
+    public JSONObject clothesOrderIndex(){
+        return CommonUtil.successJson();
+    }
 
     /*获取全部订单*/
     @GetMapping("/getAllClothesOrders")

@@ -27,9 +27,11 @@ public class WebInitializer implements WebApplicationInitializer {
         FilterRegistration.Dynamic corsFilter = servletContext.addFilter("cors", new CORSFilter());
         corsFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
-        /*FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
+        /*不要权限的时候可以注释这一行*/
+        //配置拦截器拦截请求
+        FilterRegistration.Dynamic shiroFilter = servletContext.addFilter("shiroFilter", new DelegatingFilterProxy());
         shiroFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
-        shiroFilter.setInitParameter("targetFilterLifecycle", "true");*/
+        shiroFilter.setInitParameter("targetFilterLifecycle", "true");
 
         FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
         characterEncodingFilter.setInitParameter("encoding", "utf-8");

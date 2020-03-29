@@ -1,12 +1,11 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.Customer;
 import com.djyz.service.CustomerService;
-import com.djyz.util.AjaxRes;
-import com.djyz.util.PageList;
-import com.djyz.util.QueryVo;
+import com.djyz.util.*;
 import io.swagger.annotations.Api;
-import org.aspectj.weaver.loadtime.Aj;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +17,14 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+
+    /*进入客户主页*/
+    @GetMapping("/customerIndex")
+    @RequiresPermissions("customer:index")
+    @ResponseBody
+    public JSONObject customerIndex(){
+        return CommonUtil.successJson();
+    }
 
     /*查询所有客户---分页*/
     @GetMapping("/getAllCustomer")

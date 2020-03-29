@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ImportResource;
 @Import(WebMvcConfiguration.class)
 @ComponentScan(basePackages = "com.djyz")
 @ImportResource("classpath:application-mybatis.xml")
+//@ImportResource("classpath:redis-context.xml")
+
 public class Config {
 
 }

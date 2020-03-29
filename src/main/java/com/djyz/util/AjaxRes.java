@@ -12,5 +12,6 @@ public class AjaxRes {
     private String msg;
     private Customer customer;
     private Employee employee;
+    private String token;
 
 }

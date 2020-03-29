@@ -22,7 +22,6 @@ public class FileUpload {
         //确认最终的路径
         String filename = file.getOriginalFilename();
         String newnewName = UUID.randomUUID().toString()+filename.substring(filename.lastIndexOf("."));
-        System.out.println("新名字--------------------------"+newnewName);
         uploadPath = new File(uploadPath+"/"+filename);
         //开始上传
         file.transferTo(uploadPath);

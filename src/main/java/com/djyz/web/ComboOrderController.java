@@ -1,12 +1,12 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.ComboOrder;
 import com.djyz.domain.ComboOrderState;
 import com.djyz.service.ComboOrderService;
-import com.djyz.util.AjaxRes;
-import com.djyz.util.PageList;
-import com.djyz.util.QueryVo;
+import com.djyz.util.*;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,14 @@ import java.util.List;
 public class ComboOrderController {
     @Autowired
     private ComboOrderService comboOrderService;
+
+    /*摄影订单主页*/
+    @GetMapping("/comboOrderIndex")
+    @RequiresPermissions("comboorder:index")
+    @ResponseBody
+    public JSONObject comboOrderIndex(){
+        return CommonUtil.successJson();
+    }
 
     /*获取全部订单-分页*/
     @GetMapping("/getAllComboOrders")

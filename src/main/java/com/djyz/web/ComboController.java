@@ -1,12 +1,16 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.Combo;
 import com.djyz.service.ComboService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.CommonUtil;
+import com.djyz.util.StatusEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,14 @@ import java.util.List;
 public class ComboController {
     @Autowired
     private ComboService comboService;
+
+    /*摄影套餐主页*/
+    @GetMapping("/comoIndex")
+    @RequiresPermissions("como:index")
+    @ResponseBody
+    public JSONObject comoIndex(){
+        return CommonUtil.successJson();
+    }
 
     /*获取所有的摄影套餐*/
     @GetMapping("/getAllCombo")

@@ -59,7 +59,14 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/html/**", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("/**", "authc");
+        /*以下页面需要登录认证*/
+        filterChainDefinitionMap.put("/employeeIndex", "authc"); ////员工主页
+        filterChainDefinitionMap.put("/customerIndex", "authc"); //客户主页
+        filterChainDefinitionMap.put("/rentClothesIndex", "authc"); //租赁服装主页
+        filterChainDefinitionMap.put("/comoIndex", "authc"); //摄影套餐主页
+        filterChainDefinitionMap.put("/comboOrderIndex", "authc"); //摄影订单主页
+        filterChainDefinitionMap.put("/clothesOrderIndex", "authc"); ////服装订单主页
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

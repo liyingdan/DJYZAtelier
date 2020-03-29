@@ -1,13 +1,12 @@
 package com.djyz.web;
 
-import com.djyz.util.AjaxRes;
+import com.alibaba.fastjson.JSONObject;
+import com.djyz.util.*;
 import com.djyz.domain.RentClothes;
 import com.djyz.service.RentClothesService;
-import com.djyz.util.FileUpload;
-import com.djyz.util.PageList;
-import com.djyz.util.QueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +25,14 @@ public class RentClothesController {
     private RentClothesService rentClothesService;
     @Autowired
     private FileUpload fileUpload;
+
+    /*进入租赁服装主页*/
+    @GetMapping("/rentClothesIndex")
+    @RequiresPermissions("rentClothes:index")
+    @ResponseBody
+    public JSONObject rentClothesIndex(){
+        return CommonUtil.successJson();
+    }
 
     /*根据服装分类的id获取服装*/
     @GetMapping("/getClothesWithTypeId/{cloType}")

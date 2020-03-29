@@ -2,6 +2,7 @@ package com.djyz.service;
 
 import com.djyz.domain.Customer;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.CustSignVO;
 import com.djyz.util.PageList;
 import com.djyz.util.QueryVo;
 

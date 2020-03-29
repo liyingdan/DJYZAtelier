@@ -2,12 +2,21 @@ package com.djyz.util;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.UUID;
+
 /**
- * @author: hxy
  * @description: 本后台接口系统常用的json工具类
- * @date: 2017/10/24 10:12
  */
 public class CommonUtil {
+
+	/**
+	 * 生成Customer登录成功后使用的token
+	 */
+	public static String generateToken() {
+
+		return "SIGEND_CUSTOMER" + UUID.randomUUID().toString().replaceAll("-", "");
+	}
+
 
 	/**
 	 * 返回一个info为空对象的成功消息的json

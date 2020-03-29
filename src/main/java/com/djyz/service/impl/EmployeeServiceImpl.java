@@ -80,26 +80,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.getPermissionsByEid(eid);
     }
 
-    /*根据username登录*/
-    @Override
-    public AjaxRes employeeLogin(Employee employee) {
-        System.out.println("employee-----------------------"+employee);
-        AjaxRes ajaxRes = new AjaxRes();
 
-        Employee employeeWithUsername = employeeMapper.getEmployeeWithUsername(employee.getUsername());
-        System.out.println("employeeWithUsername--------------------"+employeeWithUsername);
-        String password = employeeWithUsername.getPassword();
-        System.out.println("password-------------------------"+password);
-        if(employee.getPassword().equals(password)){
-            ajaxRes.setSuccess(true);
-            ajaxRes.setEmployee(employeeWithUsername);
-
-            return ajaxRes;
-        }else {
-            ajaxRes.setSuccess(false);
-            ajaxRes.setMsg("密码不正确");
-            return ajaxRes;
-        }
-
-    }
 }

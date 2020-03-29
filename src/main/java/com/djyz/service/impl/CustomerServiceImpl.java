@@ -3,9 +3,8 @@ package com.djyz.service.impl;
 import com.djyz.domain.Customer;
 import com.djyz.mapper.CustomerMapper;
 import com.djyz.service.CustomerService;
-import com.djyz.util.AjaxRes;
-import com.djyz.util.PageList;
-import com.djyz.util.QueryVo;
+import com.djyz.service.RedisService;
+import com.djyz.util.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,11 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    private RedisService redisService;
 
 
+    /*注册，添加用户*/
     @Override
     public AjaxRes addCustomer(Customer customer) {
         AjaxRes ajaxRes = new AjaxRes();
@@ -50,14 +52,24 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
-    /*登录*/
+    /*客户登录*/
     @Override
     public AjaxRes customerLogin(Customer customer) {
         AjaxRes ajaxRes = new AjaxRes();
-        //登录验证1
         try{
             Customer customer1 = customerMapper.customerLogin(customer);
             if(customer1 != null){
+                //登录成功，生成 token
+                String token = CommonUtil.generateToken();
+                String normalKey = "cust_"+customer1.getCustId();
+                //存到redis中
+                Boolean saveRedis = redisService.saveNormalStringKeyValue(normalKey, token, 300);
+                if (!saveRedis){
+                    ajaxRes.setSuccess(false);
+                    return ajaxRes;
+                }
+
+                ajaxRes.setToken(token);
                 ajaxRes.setSuccess(true);
                 ajaxRes.setMsg("登录成功");
                 ajaxRes.setCustomer(customer1);
@@ -66,11 +78,14 @@ public class CustomerServiceImpl implements CustomerService {
                 ajaxRes.setSuccess(false);
                 ajaxRes.setMsg("用户名或密码不正确");
             }
+
         }catch (Exception e){
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("用户名或密码不正确");
+        }finally {
+            return ajaxRes;
         }
-        return ajaxRes;
+
     }
 
 

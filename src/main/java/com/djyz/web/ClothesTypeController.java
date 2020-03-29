@@ -1,10 +1,14 @@
 package com.djyz.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djyz.util.AjaxRes;
 import com.djyz.domain.ClothesType;
 import com.djyz.service.ClothesTypeService;
+import com.djyz.util.CommonUtil;
+import com.djyz.util.StatusEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
