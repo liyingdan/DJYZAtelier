@@ -96,20 +96,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /*上传照片*/
-    @Override
-    public AjaxRes addHeader(String headerPic) {
-        AjaxRes ajaxRes = new AjaxRes();
-        try {
-            Customer customer = new Customer();
-            customer.setHeaderPic(headerPic);
-            customerMapper.updateByPrimaryKey(customer);
-            ajaxRes.setSuccess(true);
-        } catch (Exception e) {
-            ajaxRes.setSuccess(false);
-        }
-        return ajaxRes;
-
-    }
+//    @Override
+//    public AjaxRes addHeader(String headerPic) {
+//        AjaxRes ajaxRes = new AjaxRes();
+//        try {
+//            Customer customer = new Customer();
+//            customer.setHeaderPic(headerPic);
+//            customerMapper.updateByPrimaryKey(customer);
+//            ajaxRes.setSuccess(true);
+//        } catch (Exception e) {
+//            ajaxRes.setSuccess(false);
+//        }
+//        return ajaxRes;
+//
+//    }
 
     /*修改个人资料*/
     @Override
@@ -135,6 +135,23 @@ public class CustomerServiceImpl implements CustomerService {
             ajaxRes.setSuccess(false);
         }
         return ajaxRes;
+    }
+
+    /*上传头像 */
+    @Override
+    public AjaxRes saveHeadPic(Long custId, String headPicPath) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            Customer customer = customerMapper.selectByPrimaryKey(custId);
+            customer.setHeaderPic(headPicPath);
+            customerMapper.updateByPrimaryKey(customer);
+
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+
     }
 
 

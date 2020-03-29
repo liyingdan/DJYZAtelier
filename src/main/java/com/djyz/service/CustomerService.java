@@ -20,9 +20,11 @@ public interface CustomerService {
     Customer getCustomerWithId(Long custId);
 
 
-    AjaxRes addHeader(String headerPic);
+//    AjaxRes addHeader(String headerPic);
 
     AjaxRes editCustomer(Customer customer);
 
     AjaxRes deleteCustomer(Long custId);
+
+    AjaxRes saveHeadPic(Long custId, String headPicPath);
 }

@@ -54,12 +54,22 @@ public class CustomerController {
        return customerService.getCustomerWithId(custId);
     }
 
-    /*上传头像*/
-    @PostMapping("/addHeader/{headerPic}")
-    @ResponseBody
-    public AjaxRes addHeader(@PathVariable String headerPic ){
-        return customerService.addHeader(headerPic);
+//    /*上传头像*/
+//    @PostMapping("/addHeader/{headerPic}")
+//    @ResponseBody
+//    public AjaxRes addHeader(@PathVariable String headerPic ){
+//        return customerService.addHeader(headerPic);
+//    }
+
+    /*
+    * 根据客户id上传头像
+    * */
+    @PostMapping("/saveHeadPic")
+    public AjaxRes saveHeadPic(@PathVariable Long custId, @PathVariable String headPicPath){
+        return customerService.saveHeadPic(custId,headPicPath);
     }
+
+
 
     /*修改信息*/
     @GetMapping("/editCustomer")
