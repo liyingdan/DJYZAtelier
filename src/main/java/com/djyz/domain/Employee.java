@@ -10,8 +10,5 @@ public class Employee {
 
     private String password;
 
-//    private Long rid;
     private Role role;
-
-
 }

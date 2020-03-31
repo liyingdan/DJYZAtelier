@@ -26,14 +26,6 @@ public class RentClothesController {
     @Autowired
     private FileUpload fileUpload;
 
-    /*进入租赁服装主页*/
-    @GetMapping("/rentClothesIndex")
-    @RequiresPermissions("rentClothes:index")
-    @ResponseBody
-    public JSONObject rentClothesIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*根据服装分类的id获取服装*/
     @GetMapping("/getClothesWithTypeId/{cloType}")
     @ResponseBody
@@ -44,11 +36,10 @@ public class RentClothesController {
 
     /*添加租赁服装*/
     @ApiOperation("租赁服装增加--")
-    @PostMapping(value = "/addRentClothes/{cloName}/{cloPrice}/{file}/{cloAmount}/{cloType}",
+    @PostMapping(value = "/addRentClothes",
             consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ResponseBody
-    public AjaxRes addRentClothes(@PathVariable String cloName, @PathVariable Double cloPrice,
-                                  @PathVariable MultipartFile file, @PathVariable Long cloAmount, @PathVariable Long cloType, HttpSession session) throws IOException {
+    public AjaxRes addRentClothes(String cloName, Double cloPrice, MultipartFile file,  Long cloAmount, Long cloType, HttpSession session) throws IOException {
         RentClothes rentClothes = new RentClothes();
         /*上传图片*/
         if(file != null){
@@ -83,10 +74,14 @@ public class RentClothesController {
 
     /*修改租赁服装------------put过不来方法上--先使用post代替-----返回值错误，但是可以正确修改内容*/
    @ApiOperation("租赁服装修改--")
-   @PostMapping(value = "/editRentClothes/{cloId}/{cloName}/{file}/{cloPrice}/{cloAmount}/{cloType}")
+   @PostMapping(value = "/editRentClothes",
+               consumes = "multipart/*", headers = "content-type=multipart/form-data")
+//   @PostMapping(value = "/editRentClothes" )
    @ResponseBody
-    public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
-                                @PathVariable MultipartFile file,@PathVariable Long cloAmount, @PathVariable Long cloType,HttpSession session) throws IOException {
+//    public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
+//                                @PathVariable MultipartFile file,@PathVariable Long cloAmount, @PathVariable Long cloType,HttpSession session) throws IOException {
+   public AjaxRes editRentClothes(Long cloId, String cloName, Double cloPrice,
+                                   MultipartFile file, Long cloAmount, Long cloType,HttpSession session) throws IOException {
        AjaxRes ajaxRes = new AjaxRes();
        try{
            RentClothes rentClothes = new RentClothes();
@@ -118,7 +113,6 @@ public class RentClothesController {
    }
 
 
-
    /*查询全部租赁服装-分页*/
     @GetMapping("/getAllRentClothes")
     @ResponseBody
@@ -133,13 +127,6 @@ public class RentClothesController {
     public List<RentClothes> getAllClothes(QueryVo vo){
         return rentClothesService.getAllClothes(vo);
     }
-
-
-
-
-
-
-
 
 
 

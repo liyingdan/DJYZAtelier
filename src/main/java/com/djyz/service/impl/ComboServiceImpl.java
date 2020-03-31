@@ -4,6 +4,7 @@ import com.djyz.domain.Combo;
 import com.djyz.domain.ShootingLocation;
 import com.djyz.mapper.ComboMapper;
 import com.djyz.service.ComboService;
+import com.djyz.service.RedisService;
 import com.djyz.util.AjaxRes;
 import com.djyz.util.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class ComboServiceImpl implements ComboService {
     private ComboMapper comboMapper;
     @Autowired
     private FileUpload fileUpload;
+    @Autowired
+    private RedisService redisService;
 
     /*添加套餐*/
     @Override
@@ -81,9 +84,17 @@ public class ComboServiceImpl implements ComboService {
         return comboMapper.selectAll();
     }
 
+    /*
+    * 根据id获取摄影套餐 redis---数据库
+    * */
     @Override
     public Combo getComboWithId(Long coId) {
-        return comboMapper.selectByPrimaryKey(coId);
+
+
+        Combo combo = comboMapper.selectByPrimaryKey(coId);
+
+
+        return combo;
     }
 
     @Override

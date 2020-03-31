@@ -25,14 +25,6 @@ public class ComboController {
     @Autowired
     private ComboService comboService;
 
-    /*摄影套餐主页*/
-    @GetMapping("/comoIndex")
-    @RequiresPermissions("como:index")
-    @ResponseBody
-    public JSONObject comoIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*获取所有的摄影套餐*/
     @GetMapping("/getAllCombo")
     @ResponseBody

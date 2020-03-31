@@ -18,14 +18,6 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    /*进入客户主页*/
-    @GetMapping("/customerIndex")
-    @RequiresPermissions("customer:index")
-    @ResponseBody
-    public JSONObject customerIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*查询所有客户---分页*/
     @GetMapping("/getAllCustomer")
     @ResponseBody

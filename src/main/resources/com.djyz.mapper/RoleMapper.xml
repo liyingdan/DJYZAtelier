@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.djyz.mapper.RoleMapper" >
+
+  <resultMap id="BaseResultMap" type="com.djyz.domain.Role" >
+    <id column="rid" property="rid" />
+    <result column="rname" property="rname" />
+    <collection property="permissions" ofType="com.djyz.domain.Permission">
+      <id column="pid" property="pid" />
+      <result column="pname" property="pname"  />
+      <result column="presource" property="presource" />
+    </collection>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from role
+    where rid = #{rid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.djyz.domain.Role" >
+    insert into role (rid, rname)
+    values (#{rid,jdbcType=BIGINT}, #{rname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.Role" >
+    update role
+    set rname = #{rname,jdbcType=VARCHAR}
+    where rid = #{rid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select *
+    from role
+    where rid = #{rid,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select *
+    from role
+  </select>
+</mapper>

@@ -19,14 +19,6 @@ public class ComboOrderController {
     @Autowired
     private ComboOrderService comboOrderService;
 
-    /*摄影订单主页*/
-    @GetMapping("/comboOrderIndex")
-    @RequiresPermissions("comboorder:index")
-    @ResponseBody
-    public JSONObject comboOrderIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*获取全部订单-分页*/
     @GetMapping("/getAllComboOrders")
     @ResponseBody

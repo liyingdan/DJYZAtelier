@@ -26,7 +26,6 @@ public class EmployeeRealm extends AuthorizingRealm {
         String username = (String)token.getPrincipal();
         //到数据库中查询有没有用户
         Employee employee = employeeService.getEmployeeWithUsername(username);
-        System.out.println("employee---------------"+employee);
         if(employee == null){
             return null;
         }

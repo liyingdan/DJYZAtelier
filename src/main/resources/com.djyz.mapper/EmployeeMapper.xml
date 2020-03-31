@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.djyz.mapper.EmployeeMapper" >
 
-  <resultMap id="BaseResultMap" type="com.djyz.domain.Employee" >
+ <!-- <resultMap id="BaseResultMap" type="com.djyz.domain.Employee" >
     <id column="eid" property="eid" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -10,7 +10,31 @@
       <id column="rid" property="rid" jdbcType="BIGINT" />
       <result column="rname" property="rname" jdbcType="VARCHAR" />
     </association>
+  </resultMap>-->
+
+  <resultMap id="BaseResultMap" type="com.djyz.domain.Employee" >
+    <id column="eid" property="eid" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <association property="role" resultMap="RoleResultMap"/>
   </resultMap>
+
+  <resultMap id="RoleResultMap" type="com.djyz.domain.Role" >
+    <id column="rid" property="rid" />
+    <result column="rname" property="rname" />
+    <collection property="permissions" ofType="com.djyz.domain.Permission">
+      <id column="pid" property="pid" />
+      <result column="pname" property="pname"  />
+      <result column="presource" property="presource" />
+    </collection>
+  </resultMap>
+
+  <!--<collection property="permissions" ofType="com.djyz.domain.Permission">-->
+  <!--<id column="pid" property="pid" />-->
+  <!--<result column="pname" property="pname"  />-->
+  <!--<result column="presource" property="presource" />-->
+  <!--</collection>-->
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from employee where eid = #{eid}
@@ -26,20 +50,44 @@
     where eid = #{eid}
   </update>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from employee e LEFT JOIN role r ON e.rid = r.rid
+    where eid = #{eid,jdbcType=BIGINT}
+  </select>-->
+
+  <!--<select id="selectAll" resultMap="BaseResultMap" >
+    SELECT * FROM employee e LEFT JOIN role r ON e.rid = r.rid;
+  </select>-->
+
+  <!--根据username查询员工-->
+  <!--<select id="getEmployeeWithUsername" resultMap="BaseResultMap">
+      select * from employee e LEFT JOIN role r ON e.rid = r.rid
+      where username = #{username}
+   </select>-->
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select * from employee e
+    LEFT JOIN role r ON e.rid = r.rid
+    LEFT JOIN role_permission_rel rel ON r.rid = rel.rid
+    LEFT JOIN permission p ON rel.pid = p.pid
     where eid = #{eid,jdbcType=BIGINT}
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap" >
-    SELECT * FROM employee e LEFT JOIN role r ON e.rid = r.rid;
+    select * from employee e
+    LEFT JOIN role r ON e.rid = r.rid
+    LEFT JOIN role_permission_rel rel ON r.rid = rel.rid
+    LEFT JOIN permission p ON rel.pid = p.pid
   </select>
 
-  <!--根据username查询员工-->
   <select id="getEmployeeWithUsername" resultMap="BaseResultMap">
-      select * from employee e LEFT JOIN role r ON e.rid = r.rid
+      select * from employee e
+      LEFT JOIN role r ON e.rid = r.rid
+      LEFT JOIN role_permission_rel rel ON r.rid = rel.rid
+      LEFT JOIN permission p ON rel.pid = p.pid
       where username = #{username}
    </select>
+
 
   <!--根据员工id查询角色编号名称-->
   <select id="getRolesByEid" resultType="java.lang.String">

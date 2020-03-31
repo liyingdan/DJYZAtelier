@@ -13,7 +13,7 @@ public class FileUpload {
     /*上传图片*/
     public String upload(MultipartFile file, HttpSession session) throws IOException {
         //确定上传路径
-        String realPath = session.getServletContext().getRealPath("images");
+        String realPath = session.getServletContext().getRealPath("WEB-INF/classes/web-static/images");
         //变成程序中的路径
         File uploadPath = new File(realPath);
         if(!uploadPath.exists()){
@@ -30,7 +30,7 @@ public class FileUpload {
 
     /*删除服务器图片*/
     public void deleteFile(String picname,HttpSession session){
-        String path = session.getServletContext().getRealPath("/images");
+        String path = session.getServletContext().getRealPath("WEB-INF/classes/web-static/images");
         if(picname != null || !"".equals(picname)){
             File file = new File(path+'/'+picname);
             file.delete();

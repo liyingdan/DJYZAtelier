@@ -23,14 +23,6 @@ public class ClothesOrderController {
     @Autowired
     private ClothesOrderService clothesOrderService;
 
-    /*服装订单主页*/
-    @GetMapping("/clothesOrderIndex")
-    @RequiresPermissions("clothesorder:index")
-    @ResponseBody
-    public JSONObject clothesOrderIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*获取全部订单*/
     @GetMapping("/getAllClothesOrders")
     @ResponseBody

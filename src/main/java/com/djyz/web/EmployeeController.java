@@ -20,14 +20,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    /*进入后台员工页面*/
-    @GetMapping("/employeeIndex")
-    @RequiresPermissions("employee:index")
-    @ResponseBody
-    public JSONObject employeeIndex(){
-        return CommonUtil.successJson();
-    }
-
     /*获取全部员工*/
     @GetMapping("/getAllEmployee")
     @ResponseBody
