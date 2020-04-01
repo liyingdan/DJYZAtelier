@@ -1,6 +1,7 @@
 package com.djyz.service.impl;
 
 import com.djyz.domain.Customer;
+import com.djyz.domain.RentClothes;
 import com.djyz.mapper.CustomerMapper;
 import com.djyz.service.CustomerService;
 import com.djyz.service.RedisService;
@@ -10,7 +11,9 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -20,6 +23,8 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private FileUpload fileUpload;
 
 
     /*注册，添加用户*/
@@ -60,16 +65,16 @@ public class CustomerServiceImpl implements CustomerService {
             Customer customer1 = customerMapper.customerLogin(customer);
             if(customer1 != null){
                 //登录成功，生成 token
-                String token = CommonUtil.generateToken();
-                String normalKey = "cust_"+customer1.getCustId();
+//                String token = CommonUtil.generateToken();
+//                String normalKey = "cust_"+customer1.getCustId();
                 //存到redis中
-                Boolean saveRedis = redisService.saveNormalStringKeyValue(normalKey, token, 300);
-                if (!saveRedis){
-                    ajaxRes.setSuccess(false);
-                    return ajaxRes;
-                }
+//                Boolean saveRedis = redisService.saveNormalStringKeyValue(normalKey, token, 300);
+//                if (!saveRedis){
+//                    ajaxRes.setSuccess(false);
+//                    return ajaxRes;
+//                }
 
-                ajaxRes.setToken(token);
+//                ajaxRes.setToken(token);
                 ajaxRes.setSuccess(true);
                 ajaxRes.setMsg("登录成功");
                 ajaxRes.setCustomer(customer1);
@@ -113,10 +118,28 @@ public class CustomerServiceImpl implements CustomerService {
 
     /*修改个人资料*/
     @Override
-    public AjaxRes editCustomer(Customer customer) {
+    public AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session) {
         AjaxRes ajaxRes = new AjaxRes();
+        Customer newCustomer = new Customer();
+        Customer selectCustomer1 = customerMapper.selectByPrimaryKey(custId);
         try {
-            customerMapper.updateByPrimaryKey(customer);
+            //更新头像----如果file不为空，删除之前上传到服务器的图片，然后再上传新的图片
+            if(headerPic != null || !"".equals(headerPic)){
+                String oldPic = selectCustomer1.getHeaderPic();
+                //删除
+                fileUpload.deleteFile(oldPic,session);
+                //上传新的图片
+                String filename = fileUpload.upload(headerPic, session);
+                newCustomer.setHeaderPic(filename);
+            }
+            //修改用户名
+            if(custName != null || !"".equals(custName))
+                newCustomer.setCustName(custName);
+            //修改密码
+            if(password != null || !"".equals(password))
+                newCustomer.setCustName(password);
+            customerMapper.updateByPrimaryKey(newCustomer);
+
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
             ajaxRes.setSuccess(false);
@@ -138,21 +161,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /*上传头像 */
-    @Override
-    public AjaxRes saveHeadPic(Long custId, String headPicPath) {
-        AjaxRes ajaxRes = new AjaxRes();
-        try {
-            Customer customer = customerMapper.selectByPrimaryKey(custId);
-            customer.setHeaderPic(headPicPath);
-            customerMapper.updateByPrimaryKey(customer);
-
-            ajaxRes.setSuccess(true);
-        } catch (Exception e) {
-            ajaxRes.setSuccess(false);
-        }
-        return ajaxRes;
-
-    }
+//    @Override
+//    public AjaxRes saveHeadPic(Long custId, String headPicPath) {
+//        AjaxRes ajaxRes = new AjaxRes();
+//        try {
+//            Customer customer = customerMapper.selectByPrimaryKey(custId);
+//            customer.setHeaderPic(headPicPath);
+//            customerMapper.updateByPrimaryKey(customer);
+//
+//            ajaxRes.setSuccess(true);
+//        } catch (Exception e) {
+//            ajaxRes.setSuccess(false);
+//        }
+//        return ajaxRes;
+//
+//    }
 
 
 }

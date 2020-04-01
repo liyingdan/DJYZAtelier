@@ -5,11 +5,14 @@ import com.djyz.domain.Customer;
 import com.djyz.service.CustomerService;
 import com.djyz.util.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -56,18 +59,20 @@ public class CustomerController {
     /*
     * 根据客户id上传头像
     * */
-    @PostMapping("/saveHeadPic")
-    public AjaxRes saveHeadPic(@PathVariable Long custId, @PathVariable String headPicPath){
-        return customerService.saveHeadPic(custId,headPicPath);
-    }
+//    @PostMapping("/saveHeadPic")
+//    public AjaxRes saveHeadPic(@PathVariable Long custId, @PathVariable String headPicPath){
+//        return customerService.saveHeadPic(custId,headPicPath);
+//    }
 
 
 
-    /*修改信息*/
-    @GetMapping("/editCustomer")
+    /*修改个人信息 -- 头像，用户名，密码*/
+    @ApiOperation("客户修改个人信息--")
+    @PostMapping(value = "/editCustomerInfo",
+            consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ResponseBody
-    public AjaxRes editCustomer(Customer customer){
-        return customerService.editCustomer(customer);
+    public AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session){
+        return customerService.editCustomer(custId,custName,password,headerPic,session);
     }
 
 

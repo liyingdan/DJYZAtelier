@@ -5,7 +5,9 @@ import com.djyz.util.AjaxRes;
 import com.djyz.util.CustSignVO;
 import com.djyz.util.PageList;
 import com.djyz.util.QueryVo;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface CustomerService {
@@ -22,9 +24,9 @@ public interface CustomerService {
 
 //    AjaxRes addHeader(String headerPic);
 
-    AjaxRes editCustomer(Customer customer);
+    AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session);
 
     AjaxRes deleteCustomer(Long custId);
 
-    AjaxRes saveHeadPic(Long custId, String headPicPath);
+//    AjaxRes saveHeadPic(Long custId, String headPicPath);
 }

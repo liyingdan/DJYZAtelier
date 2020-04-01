@@ -76,23 +76,25 @@ public class RentClothesController {
    @ApiOperation("租赁服装修改--")
    @PostMapping(value = "/editRentClothes",
                consumes = "multipart/*", headers = "content-type=multipart/form-data")
-//   @PostMapping(value = "/editRentClothes" )
    @ResponseBody
 //    public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
 //                                @PathVariable MultipartFile file,@PathVariable Long cloAmount, @PathVariable Long cloType,HttpSession session) throws IOException {
    public AjaxRes editRentClothes(Long cloId, String cloName, Double cloPrice,
                                    MultipartFile file, Long cloAmount, Long cloType,HttpSession session) throws IOException {
        AjaxRes ajaxRes = new AjaxRes();
+       RentClothes rentClothes = new RentClothes();
+       RentClothes clothesWithId = rentClothesService.getClothesWithId(cloId);
        try{
-           RentClothes rentClothes = new RentClothes();
-           rentClothes.setCloId(cloId);
-           rentClothes.setCloName(cloName);
-           rentClothes.setCloPrice(cloPrice);
-           rentClothes.setCloAmount(cloAmount);
-           rentClothes.setCloType(cloType);
+           if(cloName != null || !"".equals(cloName))
+               rentClothes.setCloName(cloName);
+           if(cloPrice != null)
+               rentClothes.setCloPrice(cloPrice);
+           if(cloAmount != null)
+               rentClothes.setCloAmount(cloAmount);
+           if(cloType != null)
+               rentClothes.setCloType(cloType);
            //如果file不为空，删除之前上传到服务器的图片，然后再上传新的图片
            if(file != null || !"".equals(file)){
-               RentClothes clothesWithId = rentClothesService.getClothesWithId(cloId);
                String cloPicture = clothesWithId.getCloPicture();
                //删除
                fileUpload.deleteFile(cloPicture,session);
