@@ -36,23 +36,9 @@ public class RentClothesController {
 
     /*添加租赁服装*/
     @ApiOperation("租赁服装增加--")
-    @PostMapping(value = "/addRentClothes",
-            consumes = "multipart/*", headers = "content-type=multipart/form-data")
+    @PostMapping(value = "/addRentClothes")
     @ResponseBody
-    public AjaxRes addRentClothes(String cloName, Double cloPrice, MultipartFile file,  Long cloAmount, Long cloType, HttpSession session) throws IOException {
-        RentClothes rentClothes = new RentClothes();
-        /*上传图片*/
-        if(file != null){
-            String filename = fileUpload.upload(file, session);
-            //添加图片字段
-            rentClothes.setCloPicture(filename);
-        }
-        /*增加租赁服装的字段*/
-        rentClothes.setCloName(cloName);
-        rentClothes.setCloPrice(cloPrice);
-        rentClothes.setCloAmount(cloAmount);
-        rentClothes.setCloType(cloType);
-
+    public AjaxRes addRentClothes(RentClothes rentClothes) throws IOException {
         return rentClothesService.addRentClothes(rentClothes);
     }
 
@@ -60,9 +46,8 @@ public class RentClothesController {
     /*根据id删除租赁服装*/
     @DeleteMapping("/deleteRentClothesWithId/{cloId}")
     @ResponseBody
-    public AjaxRes deleteRentClothesWithId(@PathVariable Long cloId,HttpSession session){
-        AjaxRes ajaxRes = rentClothesService.deleteRentClothesWithId(cloId,session);
-        return ajaxRes;
+    public AjaxRes deleteRentClothesWithId(@PathVariable Long cloId, HttpSession session){
+        return rentClothesService.deleteRentClothesWithId(cloId,session);
     }
 
     /*根据id获取租赁服装*/
@@ -74,36 +59,26 @@ public class RentClothesController {
 
     /*修改租赁服装------------put过不来方法上--先使用post代替-----返回值错误，但是可以正确修改内容*/
    @ApiOperation("租赁服装修改--")
-   @PostMapping(value = "/editRentClothes",
-               consumes = "multipart/*", headers = "content-type=multipart/form-data")
+   @PostMapping(value = "/editRentClothes")
    @ResponseBody
-//    public AjaxRes editRentClothes(@PathVariable Long cloId,@PathVariable String cloName,@PathVariable Double cloPrice,
-//                                @PathVariable MultipartFile file,@PathVariable Long cloAmount, @PathVariable Long cloType,HttpSession session) throws IOException {
-   public AjaxRes editRentClothes(Long cloId, String cloName, Double cloPrice,
-                                   MultipartFile file, Long cloAmount, Long cloType,HttpSession session) throws IOException {
+   public AjaxRes editRentClothes(RentClothes rentClothes) throws IOException {
        AjaxRes ajaxRes = new AjaxRes();
-       RentClothes rentClothes = new RentClothes();
-       RentClothes clothesWithId = rentClothesService.getClothesWithId(cloId);
+       RentClothes clothesWithId = rentClothesService.getClothesWithId(rentClothes.getCloId());
        try{
-           if(cloName != null || !"".equals(cloName))
-               rentClothes.setCloName(cloName);
-           if(cloPrice != null)
-               rentClothes.setCloPrice(cloPrice);
-           if(cloAmount != null)
-               rentClothes.setCloAmount(cloAmount);
-           if(cloType != null)
-               rentClothes.setCloType(cloType);
+           if(rentClothes.getCloName() != null || !"".equals(rentClothes.getCloName()))
+               clothesWithId.setCloName(rentClothes.getCloName());
+           if(rentClothes.getCloPrice() != null)
+               clothesWithId.setCloPrice(rentClothes.getCloPrice());
+           if(rentClothes.getCloAmount() != null)
+               clothesWithId.setCloAmount(rentClothes.getCloAmount());
+           if(rentClothes.getCloType() != null)
+               clothesWithId.setCloType(rentClothes.getCloType());
            //如果file不为空，删除之前上传到服务器的图片，然后再上传新的图片
-           if(file != null || !"".equals(file)){
-               String cloPicture = clothesWithId.getCloPicture();
-               //删除
-               fileUpload.deleteFile(cloPicture,session);
-               //上传新的图片
-               String filename = fileUpload.upload(file, session);
-               rentClothes.setCloPicture(filename);
-           }
+           if(rentClothes.getCloPicture() != null || !"".equals(rentClothes.getCloPicture()))
+               clothesWithId.setCloPicture(rentClothes.getCloPicture());
+
            //更新
-           rentClothesService.updateRentClothes(rentClothes);
+           rentClothesService.updateRentClothes(clothesWithId);
 
            ajaxRes.setMsg("更新租赁服装成功");
            ajaxRes.setSuccess(true);

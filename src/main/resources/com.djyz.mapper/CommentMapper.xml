@@ -53,7 +53,7 @@
 
   <!--根据文章id获取评论-->
     <select id="getCommentsWithAid" resultMap="BaseResultMap">
-    SELECT * FROM `comment` cc LEFT JOIN `customer` cu ON cc.customer_id = cu.cust_id WHERE cc.article_id = 1;
+    SELECT * FROM `comment` cc LEFT JOIN `customer` cu ON cc.customer_id = cu.cust_id WHERE cc.article_id = #{articleId};
     </select>
 
   <!--根据文章id查询评论数量-->

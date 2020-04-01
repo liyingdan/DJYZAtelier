@@ -7,6 +7,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.djyz.config.AlipayConfig;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,24 +23,30 @@ import java.util.Map;
 @Controller
 @Api(value = "/Pay", tags = "支付接口")
 public class PayController {
-    @RequestMapping("/doPay")
+//    @RequestMapping(value="/doPay", produces="text/html")
+    @RequestMapping(value="/doPay.html")
     @ResponseBody
-    public String doPay(String out_trade_no, String total_amount, String subject, String body, HttpServletRequest request) throws Exception {
+    public String doPay(HttpServletRequest request) throws Exception {
         //获得初始化的AlipayClient
-        AlipayClient alipayClient =
-                new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(
+                        AlipayConfig.gatewayUrl,
+                        AlipayConfig.app_id,
+                        AlipayConfig.merchant_private_key, "json",
+                        AlipayConfig.charset,
+                        AlipayConfig.alipay_public_key,
+                        AlipayConfig.sign_type);
         //设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         alipayRequest.setReturnUrl(AlipayConfig.return_url);
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
         //付款金额，必填
-        total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
+        String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
         //订单名称，必填
-        subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
+        String subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
         //商品描述，可空
-        body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+        String body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
                 + "\"subject\":\""+ subject +"\","

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface ComboService {
-    AjaxRes addCombo(Combo combo, MultipartFile[] files, MultipartFile smPicture, HttpSession session);
+    AjaxRes addCombo(Combo combo);
 
     List<Combo> getAllCombo();
 

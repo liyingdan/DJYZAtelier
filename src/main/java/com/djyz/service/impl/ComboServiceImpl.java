@@ -29,41 +29,9 @@ public class ComboServiceImpl implements ComboService {
 
     /*添加套餐*/
     @Override
-    public AjaxRes addCombo(Combo combo, MultipartFile[] files, MultipartFile smPicture, HttpSession session) {
+    public AjaxRes addCombo(Combo combo) {
         AjaxRes ajaxRes = new AjaxRes();
-        ArrayList<String> filenames = new ArrayList<>();
         try {
-            //上传小图
-            if(smPicture != null || !"".equals(smPicture)){
-                String filename1 = fileUpload.upload(smPicture, session);
-                combo.setCoPicture(filename1);
-            }
-            //上传细节图
-            if(files != null || !"".equals(files)){
-                for (MultipartFile file : files) {
-                    //上传图片
-                    String filename = fileUpload.upload(file, session);
-                    filenames.add(filename);
-                }
-                combo.setDetailPic1(filenames.get(0));
-                combo.setDetailPic2(filenames.get(1));
-                combo.setDetailPic3(filenames.get(2));
-                combo.setDetailPic4(filenames.get(3));
-                combo.setDetailPic5(filenames.get(4));
-            }
-
-            /*ArrayList<ShootingLocation> arrayList = new ArrayList<>();
-            ShootingLocation shootingLocation1 = new ShootingLocation();
-            shootingLocation1.setLid((long) 1);
-            ShootingLocation shootingLocation2 = new ShootingLocation();
-            shootingLocation2.setLid((long) 3);
-            ShootingLocation shootingLocation3 = new ShootingLocation();
-            shootingLocation3.setLid((long) 4);
-            arrayList.add(shootingLocation1);
-            arrayList.add(shootingLocation2);
-            arrayList.add(shootingLocation3);
-            combo.setShootingLocations(arrayList);*/
-
             //保存套餐
             comboMapper.insert(combo);
 
@@ -89,8 +57,6 @@ public class ComboServiceImpl implements ComboService {
     * */
     @Override
     public Combo getComboWithId(Long coId) {
-
-
         Combo combo = comboMapper.selectByPrimaryKey(coId);
 
 

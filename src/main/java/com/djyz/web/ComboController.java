@@ -42,9 +42,8 @@ public class ComboController {
     /*添加摄影套餐(增加可拍摄地点和相应的价格)*/
     @PostMapping("/addCombo")
     @ResponseBody
-    public AjaxRes addCombo(Combo combo, @PathVariable MultipartFile[] files, @PathVariable MultipartFile smPicture, HttpSession session){
-        System.out.println(combo);
-        return comboService.addCombo(combo,files,smPicture,session);
+    public AjaxRes addCombo(Combo combo){
+        return comboService.addCombo(combo);
     }
 
     /*根据套餐分类id获取该类所有套餐*/
