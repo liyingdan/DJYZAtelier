@@ -49,30 +49,12 @@ public class CustomerController {
        return customerService.getCustomerWithId(custId);
     }
 
-//    /*上传头像*/
-//    @PostMapping("/addHeader/{headerPic}")
-//    @ResponseBody
-//    public AjaxRes addHeader(@PathVariable String headerPic ){
-//        return customerService.addHeader(headerPic);
-//    }
-
-    /*
-    * 根据客户id上传头像
-    * */
-//    @PostMapping("/saveHeadPic")
-//    public AjaxRes saveHeadPic(@PathVariable Long custId, @PathVariable String headPicPath){
-//        return customerService.saveHeadPic(custId,headPicPath);
-//    }
-
-
-
     /*修改个人信息 -- 头像，用户名，密码*/
     @ApiOperation("客户修改个人信息--")
-    @PostMapping(value = "/editCustomerInfo",
-            consumes = "multipart/*", headers = "content-type=multipart/form-data")
+    @PostMapping(value = "/editCustomerInfo")
     @ResponseBody
-    public AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session){
-        return customerService.editCustomer(custId,custName,password,headerPic,session);
+    public AjaxRes editCustomer(Customer customer){
+        return customerService.editCustomer(customer);
     }
 
 
@@ -83,7 +65,12 @@ public class CustomerController {
         return customerService.deleteCustomer(custId);
     }
 
-
+    /*根据用户 id 退出登录*/
+    @GetMapping("/logout/{custId}")
+    @ResponseBody
+    public AjaxRes custLogout(@PathVariable Long custId){
+        return customerService.custLogout(custId);
+    }
 
 
 }

@@ -4,10 +4,16 @@ import com.djyz.service.RedisService;
 import com.djyz.util.AjaxRes;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,15 +64,10 @@ public class RedisServiceImpl implements RedisService {
      */
     @Override
     public String retrieveStringValueByStringKey(String normalKey) {
-
         try {
-            String value = redisTemplate.opsForValue().get(normalKey);
-
-            return value;
-
+            return redisTemplate.opsForValue().get(normalKey);
         } catch (Exception e) {
             e.printStackTrace();
-
             return "";
         }
     }
@@ -76,16 +77,50 @@ public class RedisServiceImpl implements RedisService {
      */
     @Override
     public Boolean removeByKey(String key) {
-
         try {
             redisTemplate.delete(key);
-
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
-
             return false;
         }
     }
+
+
+    /*
+    * hash 类型保存
+    * */
+    @Override
+    public Boolean saveHashValue(String hashId, Map<String, Object> keyAndValue) {
+        System.out.println("---------------------"+keyAndValue);
+//    public Boolean saveHashValue(String hashId, String key, Object value) {
+        HashOperations<String, String, Object> sooho = redisTemplate.opsForHash();
+        try {
+//            sooho.put(hashId,key,value);
+            Set<String> set = keyAndValue.keySet();
+            Iterator<String> iterator = set.iterator();
+            while (iterator.hasNext()){
+                String next = iterator.next();
+                System.out.println("保存到redis 的key值--------------"+next);
+                sooho.put(hashId,next,keyAndValue.get(next));
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    /*
+     * 获取hash 类型值
+     * */
+    @Override
+    public Map<Object, Object> getHashValve(String key) {
+//        HashOperations<String, Object, Object> sooho = redisTemplate.opsForHash();
+//        return sooho.entries(key);
+        return redisTemplate.boundHashOps(key).entries();
+
+    }
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
 
 @Service
 @Transactional
@@ -23,9 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private FileUpload fileUpload;
-
 
     /*注册，添加用户*/
     @Override
@@ -65,16 +63,17 @@ public class CustomerServiceImpl implements CustomerService {
             Customer customer1 = customerMapper.customerLogin(customer);
             if(customer1 != null){
                 //登录成功，生成 token
-//                String token = CommonUtil.generateToken();
-//                String normalKey = "cust_"+customer1.getCustId();
+                String token = CommonUtil.generateToken();
+                String normalKey = "cust_"+customer1.getCustId();
                 //存到redis中
-//                Boolean saveRedis = redisService.saveNormalStringKeyValue(normalKey, token, 300);
-//                if (!saveRedis){
-//                    ajaxRes.setSuccess(false);
-//                    return ajaxRes;
-//                }
+                Boolean saveRedis = redisService.saveNormalStringKeyValue(normalKey, token, 300);
+                if (!saveRedis){
+                    ajaxRes.setSuccess(false);
+                    ajaxRes.setMsg("存入redis失败");
+                    return ajaxRes;
+                }
 
-//                ajaxRes.setToken(token);
+                ajaxRes.setToken(token);
                 ajaxRes.setSuccess(true);
                 ajaxRes.setMsg("登录成功");
                 ajaxRes.setCustomer(customer1);
@@ -100,45 +99,32 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.selectByPrimaryKey(custId);
     }
 
-    /*上传照片*/
-//    @Override
-//    public AjaxRes addHeader(String headerPic) {
-//        AjaxRes ajaxRes = new AjaxRes();
-//        try {
-//            Customer customer = new Customer();
-//            customer.setHeaderPic(headerPic);
-//            customerMapper.updateByPrimaryKey(customer);
-//            ajaxRes.setSuccess(true);
-//        } catch (Exception e) {
-//            ajaxRes.setSuccess(false);
-//        }
-//        return ajaxRes;
-//
-//    }
-
     /*修改个人资料*/
     @Override
-    public AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session) {
+    public AjaxRes editCustomer(Customer customer) {
+        String password = customer.getPassword();
+        String custName = customer.getCustName();
+        String headerPic = customer.getHeaderPic();
+
         AjaxRes ajaxRes = new AjaxRes();
-        Customer newCustomer = new Customer();
-        Customer selectCustomer1 = customerMapper.selectByPrimaryKey(custId);
+        Customer selectCustomer = customerMapper.selectByPrimaryKey(customer.getCustId());
+        System.out.println("selectCustomer----------------"+selectCustomer);
         try {
-            //更新头像----如果file不为空，删除之前上传到服务器的图片，然后再上传新的图片
-            if(headerPic != null || !"".equals(headerPic)){
-                String oldPic = selectCustomer1.getHeaderPic();
-                //删除
-                fileUpload.deleteFile(oldPic,session);
-                //上传新的图片
-                String filename = fileUpload.upload(headerPic, session);
-                newCustomer.setHeaderPic(filename);
+            //更新头像
+            if(headerPic != null && !"".equals(headerPic)){
+                selectCustomer.setHeaderPic(headerPic);
             }
             //修改用户名
-            if(custName != null || !"".equals(custName))
-                newCustomer.setCustName(custName);
+            if(custName != null && !"".equals(custName)){
+                selectCustomer.setCustName(custName);
+            }
             //修改密码
-            if(password != null || !"".equals(password))
-                newCustomer.setCustName(password);
-            customerMapper.updateByPrimaryKey(newCustomer);
+            if(password != null && !"".equals(password)){
+                selectCustomer.setPassword(password);
+            }
+
+            System.out.println("要插入修改的的数据---------------"+selectCustomer);
+            customerMapper.updateByPrimaryKey(selectCustomer);
 
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
@@ -160,22 +146,19 @@ public class CustomerServiceImpl implements CustomerService {
         return ajaxRes;
     }
 
-    /*上传头像 */
-//    @Override
-//    public AjaxRes saveHeadPic(Long custId, String headPicPath) {
-//        AjaxRes ajaxRes = new AjaxRes();
-//        try {
-//            Customer customer = customerMapper.selectByPrimaryKey(custId);
-//            customer.setHeaderPic(headPicPath);
-//            customerMapper.updateByPrimaryKey(customer);
-//
-//            ajaxRes.setSuccess(true);
-//        } catch (Exception e) {
-//            ajaxRes.setSuccess(false);
-//        }
-//        return ajaxRes;
-//
-//    }
+    /*用户退出登录*/
+    @Override
+    public AjaxRes custLogout(Long custId) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            //在 redis 中删除 token
+            String normalKey = "cust_" + custId;
+            redisService.removeByKey(normalKey);
 
-
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+    }
 }

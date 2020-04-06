@@ -18,14 +18,11 @@ public class ComboOrder {
     private String startDate;
 
     private Combo combo;
-//    private Long comboId;
 
     private Customer customer;
 
     private ShootingLocation shootingLocation;
-//    private Long shoottingLocationId;
 
-//    private Long shootingState;
     private  ComboOrderState comboOrderState;
 
 

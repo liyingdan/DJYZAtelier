@@ -27,7 +27,7 @@ public class EmployeeLoginController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	final String TOKENX = "1234";
+//	final String TOKENX = "1234";
 	/**
 	 * employee登录
 	 */

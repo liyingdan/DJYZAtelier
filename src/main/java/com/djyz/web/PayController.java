@@ -5,7 +5,12 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.djyz.config.AlipayConfig;
+import com.djyz.domain.ClothesOrder;
+import com.djyz.domain.ClothesOrderState;
+import com.djyz.service.ClothesOrderService;
+import com.djyz.service.ComboOrderService;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +28,15 @@ import java.util.Map;
 @Controller
 @Api(value = "/Pay", tags = "支付接口")
 public class PayController {
-//    @RequestMapping(value="/doPay", produces="text/html")
-    @RequestMapping(value="/doPay.html")
+    @Autowired
+    private ClothesOrderService clothesOrderService;
+
+    @Autowired
+    private ComboOrderService comboOrderService;
+
+    @GetMapping(value="/doPay.html")
     @ResponseBody
-    public String doPay(HttpServletRequest request) throws Exception {
+    public String doPay(String WIDout_trade_no, String WIDtotal_amount, String WIDsubject, String WIDbody, HttpServletRequest request) throws Exception {
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(
                         AlipayConfig.gatewayUrl,
@@ -43,9 +53,9 @@ public class PayController {
         String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
         //付款金额，必填
         String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
-        //订单名称，必填
+        //订单名称，必填  (订单数组---)
         String subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
-        //商品描述，可空
+        //商品描述，可空  //租赁1 套餐2
         String body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
@@ -60,6 +70,32 @@ public class PayController {
         //      + "\"timeout_express\":\"10m\","
         //      + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
         //请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
+
+        /*
+        * 暂时在这里操作数据库
+        * */
+        System.out.println("-------------subject-----------"+subject);
+        String[] split = subject.split("\\,");
+        //修改 服装订单表
+        if(body == "1" || "1".equals(body)){
+            ClothesOrder clothesOrder = new ClothesOrder();
+            ClothesOrderState clothesOrderState = new ClothesOrderState();
+            clothesOrderState.setCosId(Long.valueOf(2));
+            clothesOrder.setClothesOrderState(clothesOrderState);
+            //获取订单表的id
+            for (int i = 0; i < split.length; i++){
+//                split[i];
+                clothesOrder.setCloOrderId(Long.parseLong(split[i]));
+                clothesOrderService.editClothesOrder(clothesOrder);
+            }
+        }else{ //修改套餐订单表
+            for (int i = 0; i < split.length; i++){
+                long id= Long.parseLong(split[i]);
+                Long osId = Long.valueOf(2);
+                comboOrderService.editOrderStateWithId(id,osId);
+            }
+        }
+
         //给支付宝发送请求进行支付操作
         return alipayClient.pageExecute(alipayRequest).getBody();
     }
@@ -87,11 +123,17 @@ public class PayController {
         if (signVerified) {
             // 商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
+            System.out.println("商户订单号---------------------------"+out_trade_no);
             // 支付宝交易号
             String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"), "UTF-8");
             // 付款金额
             String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"), "UTF-8");
-            return "trade_no:" + trade_no + "<br/>out_trade_no:" + out_trade_no + "<br/>total_amount:" + total_amount;
+
+            //在数据库改状态
+
+//            return "trade_no:" + trade_no + "<br/>out_trade_no:" + out_trade_no + "<br/>total_amount:" + total_amount;
+
+            return "Payment success！";
         } else {
             return "验签失败";
         }

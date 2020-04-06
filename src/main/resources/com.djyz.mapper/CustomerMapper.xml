@@ -16,7 +16,7 @@
     where cust_id = #{custId,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="com.djyz.domain.Customer" >
+  <insert id="insert" parameterType="com.djyz.domain.Customer" useGeneratedKeys="true" keyProperty="custId">
     insert into customer (cust_id, cust_name, password, cust_phone, address, header_pic)
     values (#{custId}, #{custName}, #{password},#{custPhone}, #{address}, #{headerPic})
   </insert>

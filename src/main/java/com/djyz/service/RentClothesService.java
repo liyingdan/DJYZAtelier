@@ -14,7 +14,7 @@ public interface RentClothesService {
 
     AjaxRes addRentClothes(RentClothes rentClothes);
 
-    AjaxRes deleteRentClothesWithId(Long cloId, HttpSession session);
+    AjaxRes deleteRentClothesWithId(Long cloId);
 
     /*根据id获取租赁服装*/
     RentClothes getClothesWithId(Long cloId);

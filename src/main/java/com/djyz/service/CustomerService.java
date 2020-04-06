@@ -18,15 +18,11 @@ public interface CustomerService {
 
     AjaxRes customerLogin(Customer customer);
 
-
     Customer getCustomerWithId(Long custId);
 
-
-//    AjaxRes addHeader(String headerPic);
-
-    AjaxRes editCustomer(Long custId, String custName, String password, MultipartFile headerPic, HttpSession session);
+    AjaxRes editCustomer(Customer customer);
 
     AjaxRes deleteCustomer(Long custId);
 
-//    AjaxRes saveHeadPic(Long custId, String headPicPath);
+    AjaxRes custLogout(Long custId);
 }

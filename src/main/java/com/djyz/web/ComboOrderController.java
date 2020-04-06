@@ -32,7 +32,7 @@ public class ComboOrderController {
     /**
      *参数：comOrderId（自动生成），price,
      * comOderDate(自动生成今天日期)，startDate（拍摄日期，点击拍摄地点进行选择（几号）），
-     * combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）
+     * 需要传的参数： combo.id,  customer.id,  shootingLocation.id, shootingState（默认为1）
      * */
     @PostMapping("/addComboOrders/{coId}/{custId}/{lid}/{price}/{startDate}")
     @ResponseBody
@@ -62,6 +62,8 @@ public class ComboOrderController {
         return comboOrderService.editOrderStateWithId(comOrderId,osId);
     }
 
+
+
     /*根据客户id查询订单*/
     @GetMapping("/getComboOrderWithCustId/{custId}")
     @ResponseBody
@@ -75,11 +77,6 @@ public class ComboOrderController {
     public AjaxRes addPic(@PathVariable String pic){
         return comboOrderService.addPic(pic);
     }
-
-
-
-
-
 
 
 

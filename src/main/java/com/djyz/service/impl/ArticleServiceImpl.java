@@ -22,6 +22,18 @@ public class ArticleServiceImpl implements ArticleService {
     public AjaxRes addArticle(Article article) {
         AjaxRes ajaxRes = new AjaxRes();
         try{
+            //如果 artDescribe 为空，则设置为 content 的前10位
+            String artDescribe = article.getArtDescribe();
+            String content = article.getContent();
+            if(artDescribe == null || "".equals(artDescribe)){
+                if (content.length() > 10)
+                    artDescribe = content.substring(0,9);
+                else
+                    artDescribe = content;
+            }
+            // 设置 artDescribe
+            article.setArtDescribe(artDescribe);
+
             articleMapper.insert(article);
             ajaxRes.setMsg("添加文章成功");
             ajaxRes.setSuccess(true);

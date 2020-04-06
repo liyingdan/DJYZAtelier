@@ -2,10 +2,12 @@ package com.djyz.service.impl;
 
 import com.djyz.domain.ClothesOrder;
 import com.djyz.domain.ClothesOrderState;
+import com.djyz.domain.Customer;
 import com.djyz.domain.RentClothes;
 import com.djyz.mapper.ClothesOrderMapper;
 import com.djyz.mapper.RentClothesMapper;
 import com.djyz.service.ClothesOrderService;
+import com.djyz.service.RedisService;
 import com.djyz.util.AjaxRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class ClothesOrderServiceImpl implements ClothesOrderService {
     private ClothesOrderMapper clothesOrderMapper;
     @Autowired
     private RentClothesMapper rentClothesMapper;
+    @Autowired
+    private RedisService redisService;
 
     /*获取全部订单*/
     @Override
@@ -30,9 +34,33 @@ public class ClothesOrderServiceImpl implements ClothesOrderService {
 
     /*添加订单*/
     @Override
-    public AjaxRes addClothesOrders(ClothesOrder clothesOrder) {
+    public AjaxRes addClothesOrders(Long cloId, Long custId, String token) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
+            // 先验证是否已经登录
+            if(custId == null || token == null){
+                ajaxRes.setSuccess(false);
+                ajaxRes.setMsg("您未登录，请先登录!");
+                return ajaxRes;
+            }
+            String normalKey = "cust_" + custId;
+            String s = redisService.retrieveStringValueByStringKey(normalKey);
+            if(!s.equals(token)){
+                ajaxRes.setSuccess(false);
+                ajaxRes.setMsg("登录过期，请先登录!");
+                return ajaxRes;
+            }
+            //如果已经登录，添加订单
+            ClothesOrder clothesOrder = new ClothesOrder();
+            //添加衣服id
+            RentClothes rentClothes1 = new RentClothes();
+            rentClothes1.setCloId(cloId);
+            clothesOrder.setRentClothes(rentClothes1);
+            //添加客户id
+            Customer customer = new Customer();
+            customer.setCustId(custId);
+            clothesOrder.setCustomer(customer);
+
             //设置订单日期
             clothesOrder.setClothesOrderDate(new Date());
             //设置默认状态为1
@@ -53,6 +81,7 @@ public class ClothesOrderServiceImpl implements ClothesOrderService {
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
             ajaxRes.setSuccess(false);
+            ajaxRes.setMsg(e.getMessage());
         }
         return ajaxRes;
     }
@@ -75,6 +104,21 @@ public class ClothesOrderServiceImpl implements ClothesOrderService {
         AjaxRes ajaxRes = new AjaxRes();
         try {
             clothesOrderMapper.editClothesOrder(clothesOrder);
+            ajaxRes.setSuccess(true);
+        } catch (Exception e) {
+            ajaxRes.setSuccess(false);
+        }
+        return ajaxRes;
+    }
+
+    /*取消订单--修改状态为已取消*/
+    @Override
+    public AjaxRes cancelOrder(Long cloOrderId) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            //把状态改为5
+            clothesOrderMapper.cancelOrder(cloOrderId);
+
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
             ajaxRes.setSuccess(false);

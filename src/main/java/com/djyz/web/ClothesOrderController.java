@@ -7,6 +7,9 @@ import com.djyz.util.AjaxRes;
 import com.djyz.util.CommonUtil;
 import com.djyz.util.StatusEnum;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import javafx.scene.shape.VLineTo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +33,20 @@ public class ClothesOrderController {
         return clothesOrderService.getAllClothesOrders();
     }
 
-    /*增加订单--完成后服装数量减1*/
-    @GetMapping("/addClothesOrders")
+    /*增加订单--完成后服装数量减1
+    * 参数：cloId（租赁服装id），custId 用户id
+    * */
+
+    @GetMapping("/addClothesOrders/{cloId}/{custId}/{token}")
     @ResponseBody
-    public AjaxRes addClothesOrders(ClothesOrder clothesOrder){
-        return clothesOrderService.addClothesOrders(clothesOrder);
+    public AjaxRes addClothesOrders(@PathVariable Long cloId, Long custId, String token){
+        if(custId == null || token == null || "".equals(token)){
+            AjaxRes ajaxRes = new AjaxRes();
+            ajaxRes.setMsg("请先登录");
+            ajaxRes.setSuccess(false);
+            return ajaxRes;
+        }
+        return clothesOrderService.addClothesOrders(cloId,custId,token);
     }
 
 
@@ -59,6 +71,14 @@ public class ClothesOrderController {
     public AjaxRes editClothesOrder(ClothesOrder clothesOrder){
         return clothesOrderService.editClothesOrder(clothesOrder);
     }
+
+    /*根据id 取消订单*/
+    @GetMapping("/cancelOrder/{cloOrderId}")
+    @ResponseBody
+    public AjaxRes cancelOrder(@PathVariable Long cloOrderId){
+        return clothesOrderService.cancelOrder(cloOrderId);
+    }
+
 
 
 

@@ -13,7 +13,8 @@
     delete from rent_clothes
     where clo_id = #{cloId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.djyz.domain.RentClothes" >
+
+  <insert id="insert" parameterType="com.djyz.domain.RentClothes" useGeneratedKeys="true" keyProperty="cloId"  >
     insert into rent_clothes (clo_id, clo_name, clo_price, clo_picture, clo_amount, clo_type)
     values (#{cloId}, #{cloName}, #{cloPrice}, #{cloPicture}, #{cloAmount}, #{cloType}
       )
