@@ -13,7 +13,7 @@
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from customer
-    where cust_id = #{custId,jdbcType=BIGINT}
+    where cust_id = #{custId}
   </delete>
 
   <insert id="insert" parameterType="com.djyz.domain.Customer" useGeneratedKeys="true" keyProperty="custId">

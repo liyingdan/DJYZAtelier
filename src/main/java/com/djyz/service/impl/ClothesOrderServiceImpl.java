@@ -9,6 +9,10 @@ import com.djyz.mapper.RentClothesMapper;
 import com.djyz.service.ClothesOrderService;
 import com.djyz.service.RedisService;
 import com.djyz.util.AjaxRes;
+import com.djyz.util.PageList;
+import com.djyz.util.QueryVo;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,5 +128,21 @@ public class ClothesOrderServiceImpl implements ClothesOrderService {
             ajaxRes.setSuccess(false);
         }
         return ajaxRes;
+    }
+
+    /*获取全部订单--分页*/
+    @Override
+    public PageList getAllClothesOrdersWithPage(QueryVo vo) {
+        Page<Object> page = PageHelper.startPage(vo.getPageNum(), vo.getRows());
+
+//        List<RentClothes> rentClothes = rentClothesMapper.selectAll(vo);
+        List<ClothesOrder> clothesOrders = clothesOrderMapper.selectAll();
+
+        //封装pageList
+        PageList pageList = new PageList();
+        pageList.setTotal(page.getTotal());
+        pageList.setRows(clothesOrders);
+
+        return pageList;
     }
 }

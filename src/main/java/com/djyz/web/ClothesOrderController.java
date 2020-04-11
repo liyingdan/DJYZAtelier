@@ -3,9 +3,7 @@ package com.djyz.web;
 import com.alibaba.fastjson.JSONObject;
 import com.djyz.domain.ClothesOrder;
 import com.djyz.service.ClothesOrderService;
-import com.djyz.util.AjaxRes;
-import com.djyz.util.CommonUtil;
-import com.djyz.util.StatusEnum;
+import com.djyz.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,6 +24,13 @@ public class ClothesOrderController {
     @Autowired
     private ClothesOrderService clothesOrderService;
 
+    /*获取全部订单--分页*/
+    @GetMapping("/getAllClothesOrdersWithPage")
+    @ResponseBody
+    public PageList getAllClothesOrdersWithPage(QueryVo vo){
+        return clothesOrderService.getAllClothesOrdersWithPage(vo);
+    }
+
     /*获取全部订单*/
     @GetMapping("/getAllClothesOrders")
     @ResponseBody
@@ -37,9 +42,9 @@ public class ClothesOrderController {
     * 参数：cloId（租赁服装id），custId 用户id
     * */
 
-    @GetMapping("/addClothesOrders/{cloId}/{custId}/{token}")
+    @GetMapping("/addClothesOrders")
     @ResponseBody
-    public AjaxRes addClothesOrders(@PathVariable Long cloId, Long custId, String token){
+    public AjaxRes addClothesOrders(Long cloId, Long custId, String token){
         if(custId == null || token == null || "".equals(token)){
             AjaxRes ajaxRes = new AjaxRes();
             ajaxRes.setMsg("请先登录");

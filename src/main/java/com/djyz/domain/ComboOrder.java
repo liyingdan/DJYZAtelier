@@ -25,6 +25,8 @@ public class ComboOrder {
 
     private  ComboOrderState comboOrderState;
 
+    private String comboOrderProducts;
+
 
 
 

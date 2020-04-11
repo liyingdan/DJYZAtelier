@@ -7,11 +7,13 @@ public class AlipayConfig {
 	// 支付宝公钥（这里是沙箱公钥）
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk564A/94eHtA/1h0GxIeIP3kL9IkI1PzgwBb8FIwoREX7DMzuz5VEU5S2ZA5Ebq5gnnemQ3F9DsTwkqvczwF6QmAeeWGznfi2/E5JDh55SUI1m/4VfJSXfas34SmNTdItUzz7AIIu1HCdEuBxMWcAZXE6l5vBHdmtheTlYpQpePDsTxIuiU4BQ96bvZ2DGjIM7D3joiJ3Gn+y9RLscFXHZ1dFMD0BtbxHhufd3GAwryasIlx/6rAxWwIdNTi+Rm6++7s0RLcs/JHUlaYvo7NOGSgZoxbNcj3u8G/5RKhBVzkIgcptzai9NwYep7uFNhGI/EZihcN7mNynTrbPdp13QIDAQAB";
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String notify_url = "http://m4t5tc.natappfree.cc/payNotify";
+    public static String notify_url = "http://amubmh.natappfree.cc/payNotify";
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://m4t5tc.natappfree.cc/payReturn";
+	public static String return_url = "http://amubmh.natappfree.cc/payReturn";
 	// 签名方式
 	public static String sign_type = "RSA2";
 	public static String charset = "utf-8";
 	public static String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
+
+
 }

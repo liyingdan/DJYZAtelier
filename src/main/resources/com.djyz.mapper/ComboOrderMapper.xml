@@ -7,6 +7,7 @@
     <result column="price" property="price"/>
     <result column="com_oder_date" property="comOderDate" />
     <result column="start_date" property="startDate" />
+    <result column="combo_order_products" property="comboOrderProducts" />
     <association property="combo" javaType="com.djyz.domain.Combo">
       <id column="co_id" property="coId" />
       <result column="co_name" property="coName" />
@@ -44,13 +45,7 @@
     values (#{price}, #{comOderDate}, #{startDate}, #{coId}, #{lid} , #{custId}, #{shootingState})
   </insert>
 
-  <!--拍摄完成后上传图片-字符串-->
-    <insert id="addPic">
-      insert into `picture` (ppic) value (#{pic})
-
-    </insert>
-
-    <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
+  <update id="updateByPrimaryKey" parameterType="com.djyz.domain.ComboOrder" >
     update combo_order
     set price = #{price},
       com_oder_date = #{comOderDate},
@@ -66,6 +61,10 @@
   <update id="editOrderStateWithId">
     update combo_order set shooting_state = #{osId} where com_order_id = #{comOrderId}
 
+  </update>
+  <!--上传套餐照片压缩包-->
+  <update id="uploadComboOrderPicture">
+    update combo_order set combo_order_products = #{comboOrderProducts} where com_order_id = #{comOrderId}
   </update>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -85,6 +84,7 @@
     LEFT JOIN combo cc ON coo.combo_id = cc.co_id
     LEFT JOIN shooting_location sl ON coo.shootting_location_id = sl.lid
     LEFT JOIN combo_order_state coss ON coo.shooting_state = coss.os_id
+    order by com_oder_date DESC
 
   </select>
 

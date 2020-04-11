@@ -61,7 +61,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     public AjaxRes editEmployee(Employee employee) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
-            employeeMapper.updateByPrimaryKey(employee);
+            Employee employee1 = employeeMapper.selectByPrimaryKey(employee.getEid());
+            String password = employee.getPassword();
+            String username = employee.getUsername();
+            if(password != null && !"".equals(password))
+                employee1.setPassword(password);
+            if (username != null && !"".equals(username))
+                employee1.setUsername(username);
+            //更新
+            employeeMapper.updateByPrimaryKey(employee1);
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
             ajaxRes.setSuccess(false);

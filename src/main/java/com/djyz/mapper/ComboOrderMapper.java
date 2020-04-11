@@ -2,6 +2,7 @@ package com.djyz.mapper;
 
 import com.djyz.domain.ComboOrder;
 import com.djyz.domain.ShootingLocation;
+import com.djyz.util.AjaxRes;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -29,5 +30,6 @@ public interface ComboOrderMapper {
 
     List<ComboOrder> getComboOrderWithCustId(Long custId);
 
-    void addPic(String pic);
+
+    void uploadComboOrderPicture(@Param("comOrderId")Long comOrderId, @Param("comboOrderProducts")String comboOrderProducts);
 }

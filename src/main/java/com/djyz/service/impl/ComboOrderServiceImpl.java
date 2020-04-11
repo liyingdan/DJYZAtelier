@@ -135,7 +135,7 @@ public class ComboOrderServiceImpl implements ComboOrderService {
     public AjaxRes addPic(String pic) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
-            comboOrderMapper.addPic(pic);
+//            comboOrderMapper.addPic(pic);
             ajaxRes.setSuccess(true);
         } catch (Exception e) {
             ajaxRes.setSuccess(false);
