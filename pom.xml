@@ -19,7 +19,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <!--定义版本号   ${org.springframework.version}-->
-    <org.springframework.version>5.0.7.RELEASE</org.springframework.version>
+    <org.springframework.version>5.2.22.RELEASE</org.springframework.version>
     <org.mybatis.version>3.4.6</org.mybatis.version>
 
   </properties>
